@@ -417,7 +417,18 @@ set_item_stock (GtkWidget  *mi,
     {
       if (image == NULL && name != NULL)
         {
+          const gchar *icon_name = NULL;
+          GtkIconSize size = GTK_ICON_SIZE_MENU;
+
           image = gtk_image_new_from_icon_name (name, GTK_ICON_SIZE_MENU);
+
+          /* try to avoid using fallback icons */
+          gtk_image_get_icon_name(GTK_IMAGE (image), &icon_name, &size);
+          if (strcmp(name, icon_name))
+            {
+              gtk_widget_destroy (image);
+              image = NULL;
+            }
         }
       if (image == NULL && stock_id != NULL)
         {
@@ -1186,7 +1197,7 @@ wnck_action_menu_constructor (GType                  type,
                          priv->resize_item);
 
   set_item_text (priv->resize_item, _("_Resize"));
-  set_item_stock (priv->move_item, NULL, "window-resize");
+  set_item_stock (priv->resize_item, NULL, "window-resize");
 
   priv->workspace_separator = separator = gtk_separator_menu_item_new ();
   gtk_widget_show (separator);
