@@ -401,29 +401,46 @@ set_item_text (GtkWidget  *mi,
 
 static void
 set_item_stock (GtkWidget  *mi,
-                const char *stock_id)
+                const char *stock_id,
+                const char *name)
 {
   GtkWidget *image;
 
   image = gtk_image_menu_item_get_image (GTK_IMAGE_MENU_ITEM (mi));
 
-  if (stock_id == NULL)
+  if (image != NULL)
     {
-      if (image != NULL)
-        gtk_widget_destroy (image);
-      return;
+      gtk_widget_destroy (image);
+      image = NULL;
     }
-
   if (image == NULL)
     {
-      image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_MENU);
-      gtk_widget_show (image);
-      gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), image);
+      if (image == NULL && name != NULL)
+        {
+          image = gtk_image_new_from_icon_name (name, GTK_ICON_SIZE_MENU);
+        }
+      if (image == NULL && stock_id != NULL)
+        {
+          image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_MENU);
+        }
+      if (image != NULL)
+        {
+          gtk_widget_show (image);
+          gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), image);
+        }
     }
   else
     {
-      gtk_image_set_from_stock (GTK_IMAGE (image), stock_id,
-                                GTK_ICON_SIZE_MENU);
+      if (name != NULL)
+        {
+          gtk_image_set_from_icon_name (GTK_IMAGE (image), name,
+                                        GTK_ICON_SIZE_MENU);
+        }
+      else if (stock_id != NULL)
+        {
+          gtk_image_set_from_stock (GTK_IMAGE (image), stock_id,
+                                    GTK_ICON_SIZE_MENU);
+        }
     }
 }
 
@@ -453,14 +470,14 @@ update_menu_state (WnckActionMenu *menu)
   if (wnck_window_is_minimized (priv->window))
     {
       set_item_text (priv->minimize_item, _("Unmi_nimize"));
-      set_item_stock (priv->minimize_item, NULL);
+      set_item_stock (priv->minimize_item, NULL, "window-unminimize");
       gtk_widget_set_sensitive (priv->minimize_item,
                                 (actions & WNCK_WINDOW_ACTION_UNMINIMIZE) != 0);
     }
   else
     {
       set_item_text (priv->minimize_item, _("Mi_nimize"));
-      set_item_stock (priv->minimize_item, WNCK_STOCK_MINIMIZE);
+      set_item_stock (priv->minimize_item, WNCK_STOCK_MINIMIZE, "window-minimize");
       gtk_widget_set_sensitive (priv->minimize_item,
                                 (actions & WNCK_WINDOW_ACTION_MINIMIZE) != 0);
     }
@@ -468,14 +485,14 @@ update_menu_state (WnckActionMenu *menu)
   if (wnck_window_is_maximized (priv->window))
     {
       set_item_text (priv->maximize_item, _("Unma_ximize"));
-      set_item_stock (priv->maximize_item, NULL);
+      set_item_stock (priv->maximize_item, NULL, "window-unmaximize");
       gtk_widget_set_sensitive (priv->maximize_item,
                                 (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE) != 0);
     }
   else
     {
       set_item_text (priv->maximize_item, _("Ma_ximize"));
-      set_item_stock (priv->maximize_item, WNCK_STOCK_MAXIMIZE);
+      set_item_stock (priv->maximize_item, WNCK_STOCK_MAXIMIZE, "window-maximize");
       gtk_widget_set_sensitive (priv->maximize_item,
                                 (actions & WNCK_WINDOW_ACTION_MAXIMIZE) != 0);
     }
@@ -483,14 +500,14 @@ update_menu_state (WnckActionMenu *menu)
   if (wnck_window_is_maximized_horizontally (priv->window))
     {
       set_item_text (priv->maximize_h_item, _("Unmaximize _Horizontally"));
-      set_item_stock (priv->maximize_h_item, NULL);
+      set_item_stock (priv->maximize_h_item, NULL, "window-unmaximize-h");
       gtk_widget_set_sensitive (priv->maximize_h_item,
                                 (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE_HORIZONTALLY) != 0);
     }
   else
     {
       set_item_text (priv->maximize_h_item, _("Maximize _Horizontally"));
-      set_item_stock (priv->maximize_h_item, NULL);
+      set_item_stock (priv->maximize_h_item, NULL, "window-maximize-h");
       gtk_widget_set_sensitive (priv->maximize_h_item,
                                 (actions & WNCK_WINDOW_ACTION_MAXIMIZE_HORIZONTALLY) != 0);
 
@@ -499,14 +516,14 @@ update_menu_state (WnckActionMenu *menu)
   if (wnck_window_is_maximized_vertically (priv->window))
     {
       set_item_text (priv->maximize_v_item, _("Unmaximize _Vertically"));
-      set_item_stock (priv->maximize_v_item, NULL);
+      set_item_stock (priv->maximize_v_item, NULL, "window-unmaximize-v");
       gtk_widget_set_sensitive (priv->maximize_v_item,
                                 (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE_VERTICALLY) != 0);
     }
   else
     {
       set_item_text (priv->maximize_v_item, _("Maximize _Vertically"));
-      set_item_stock (priv->maximize_v_item, NULL);
+      set_item_stock (priv->maximize_v_item, NULL, "window-maximize-v");
       gtk_widget_set_sensitive (priv->maximize_v_item,
                                 (actions & WNCK_WINDOW_ACTION_MAXIMIZE_VERTICALLY) != 0);
     }
@@ -514,14 +531,14 @@ update_menu_state (WnckActionMenu *menu)
   if (wnck_window_is_shaded (priv->window))
     {
       set_item_text (priv->shade_item, _("Un_shade"));
-      set_item_stock (priv->shade_item, NULL);
+      set_item_stock (priv->shade_item, NULL, "window-unshade");
       gtk_widget_set_sensitive (priv->shade_item,
                                 (actions & WNCK_WINDOW_ACTION_UNSHADE) != 0);
     }
   else
     {
       set_item_text (priv->shade_item, _("_Shade"));
-      set_item_stock (priv->shade_item, NULL);
+      set_item_stock (priv->shade_item, NULL, "window-shade");
       gtk_widget_set_sensitive (priv->shade_item,
                                 (actions & WNCK_WINDOW_ACTION_SHADE) != 0);
     }
@@ -935,7 +952,7 @@ refill_submenu_workspace (WnckActionMenu *menu)
 
       gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
       set_item_text (item, name);
-      set_item_stock (item, NULL);
+      set_item_stock (item, NULL, NULL);
 
       g_free (name);
     }
@@ -1014,7 +1031,7 @@ refill_submenu_viewport (WnckActionMenu *menu)
 
           gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
           set_item_text (item, label);
-          set_item_stock (item, NULL);
+          set_item_stock (item, NULL, NULL);
 
           g_free (label);
         }
@@ -1162,14 +1179,14 @@ wnck_action_menu_constructor (GType                  type,
                          priv->move_item);
 
   set_item_text (priv->move_item, _("_Move"));
-  set_item_stock (priv->move_item, NULL);
+  set_item_stock (priv->move_item, NULL, "window-move");
 
   priv->resize_item = make_menu_item (RESIZE);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->resize_item);
 
   set_item_text (priv->resize_item, _("_Resize"));
-  set_item_stock (priv->move_item, NULL);
+  set_item_stock (priv->move_item, NULL, "window-resize");
 
   priv->workspace_separator = separator = gtk_separator_menu_item_new ();
   gtk_widget_show (separator);
@@ -1204,25 +1221,25 @@ wnck_action_menu_constructor (GType                  type,
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->left_item);
   set_item_text (priv->left_item, _("Move to Workspace _Left"));
-  set_item_stock (priv->left_item, NULL);
+  set_item_stock (priv->left_item, NULL, "window-sendto-l");
 
   priv->right_item = make_menu_item (RIGHT);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->right_item);
   set_item_text (priv->right_item, _("Move to Workspace R_ight"));
-  set_item_stock (priv->right_item, NULL);
+  set_item_stock (priv->right_item, NULL, "window-sendto-r");
 
   priv->up_item = make_menu_item (UP);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->up_item);
   set_item_text (priv->up_item, _("Move to Workspace _Up"));
-  set_item_stock (priv->up_item, NULL);
+  set_item_stock (priv->up_item, NULL, "window-sendto-u");
 
   priv->down_item = make_menu_item (DOWN);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->down_item);
   set_item_text (priv->down_item, _("Move to Workspace _Down"));
-  set_item_stock (priv->down_item, NULL);
+  set_item_stock (priv->down_item, NULL, "window-sendto-d");
 
   priv->workspace_item = gtk_menu_item_new_with_mnemonic (_("Move to Another _Workspace"));
   gtk_widget_show (priv->workspace_item);
@@ -1245,7 +1262,7 @@ wnck_action_menu_constructor (GType                  type,
                          priv->close_item);
 
   set_item_text (priv->close_item, _("_Close"));
-  set_item_stock (priv->close_item, WNCK_STOCK_DELETE);
+  set_item_stock (priv->close_item, WNCK_STOCK_DELETE, "window-close");
 
   g_signal_connect_object (G_OBJECT (priv->window),
                            "state_changed",
