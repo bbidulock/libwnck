@@ -64,7 +64,13 @@ typedef enum
   CLOSE,
   MINIMIZE,
   MAXIMIZE,
+  MAXIMIZE_H,
+  MAXIMIZE_V,
+  SHADE,
   ABOVE,
+  BELOW,
+  RAISE,
+  LOWER,
   MOVE,
   RESIZE,
   PIN,
@@ -81,7 +87,13 @@ struct _WnckActionMenuPrivate
   WnckWindow *window;
   GtkWidget *minimize_item;
   GtkWidget *maximize_item;
+  GtkWidget *maximize_h_item;
+  GtkWidget *maximize_v_item;
+  GtkWidget *shade_item;
   GtkWidget *above_item;
+  GtkWidget *below_item;
+  GtkWidget *raise_item;
+  GtkWidget *lower_item;
   GtkWidget *move_item;
   GtkWidget *resize_item;
   GtkWidget *close_item;
@@ -194,11 +206,35 @@ item_activated_callback (GtkWidget *menu_item,
       else
         wnck_window_maximize (window);
       break;
+    case MAXIMIZE_H:
+      if (wnck_window_is_maximized_horizontally (window))
+        wnck_window_unmaximize_horizontally (window);
+      else
+        wnck_window_maximize_horizontally (window);
+      break;
+    case MAXIMIZE_V:
+      if (wnck_window_is_maximized_vertically (window))
+        wnck_window_unmaximize_vertically (window);
+      else
+        wnck_window_maximize_vertically (window);
+      break;
+    case SHADE:
+      if (wnck_window_is_shaded (window))
+        wnck_window_unshade (window);
+      else
+        wnck_window_shade (window);
+      break;
     case ABOVE:
       if (wnck_window_is_above (window))
         wnck_window_unmake_above (window);
       else
         wnck_window_make_above (window);
+      break;
+    case BELOW:
+      if (wnck_window_is_below (window))
+        wnck_window_unmake_below (window);
+      else
+        wnck_window_make_below (window);
       break;
     case MOVE:
       wnck_window_keyboard_move (window);
@@ -444,6 +480,52 @@ update_menu_state (WnckActionMenu *menu)
                                 (actions & WNCK_WINDOW_ACTION_MAXIMIZE) != 0);
     }
 
+  if (wnck_window_is_maximized_horizontally (priv->window))
+    {
+      set_item_text (priv->maximize_h_item, _("Unmaximize _Horizontally"));
+      set_item_stock (priv->maximize_h_item, NULL);
+      gtk_widget_set_sensitive (priv->maximize_h_item,
+                                (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE_HORIZONTALLY) != 0);
+    }
+  else
+    {
+      set_item_text (priv->maximize_h_item, _("Maximize _Horizontally"));
+      set_item_stock (priv->maximize_h_item, NULL);
+      gtk_widget_set_sensitive (priv->maximize_h_item,
+                                (actions & WNCK_WINDOW_ACTION_MAXIMIZE_HORIZONTALLY) != 0);
+
+    }
+
+  if (wnck_window_is_maximized_vertically (priv->window))
+    {
+      set_item_text (priv->maximize_v_item, _("Unmaximize _Vertically"));
+      set_item_stock (priv->maximize_v_item, NULL);
+      gtk_widget_set_sensitive (priv->maximize_v_item,
+                                (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE_VERTICALLY) != 0);
+    }
+  else
+    {
+      set_item_text (priv->maximize_v_item, _("Maximize _Vertically"));
+      set_item_stock (priv->maximize_v_item, NULL);
+      gtk_widget_set_sensitive (priv->maximize_v_item,
+                                (actions & WNCK_WINDOW_ACTION_MAXIMIZE_VERTICALLY) != 0);
+    }
+
+  if (wnck_window_is_shaded (priv->window))
+    {
+      set_item_text (priv->shade_item, _("Un_shade"));
+      set_item_stock (priv->shade_item, NULL);
+      gtk_widget_set_sensitive (priv->shade_item,
+                                (actions & WNCK_WINDOW_ACTION_UNSHADE) != 0);
+    }
+  else
+    {
+      set_item_text (priv->shade_item, _("_Shade"));
+      set_item_stock (priv->shade_item, NULL);
+      gtk_widget_set_sensitive (priv->shade_item,
+                                (actions & WNCK_WINDOW_ACTION_SHADE) != 0);
+    }
+
   g_signal_handlers_block_by_func (G_OBJECT (priv->above_item),
                                    item_activated_callback,
                                    GINT_TO_POINTER (ABOVE));
@@ -455,6 +537,18 @@ update_menu_state (WnckActionMenu *menu)
 
   gtk_widget_set_sensitive (priv->above_item,
                             (actions & WNCK_WINDOW_ACTION_ABOVE) != 0);
+
+  g_signal_handlers_block_by_func (G_OBJECT (priv->below_item),
+                                   item_activated_callback,
+                                   GINT_TO_POINTER (BELOW));
+  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (priv->below_item),
+                                  wnck_window_is_below (priv->window));
+  g_signal_handlers_unblock_by_func (G_OBJECT (priv->below_item),
+                                     item_activated_callback,
+                                     GINT_TO_POINTER (BELOW));
+
+  gtk_widget_set_sensitive (priv->below_item,
+                            (actions & WNCK_WINDOW_ACTION_BELOW) != 0);
 
   g_signal_handlers_block_by_func (G_OBJECT (priv->pin_item),
                                    item_activated_callback,
@@ -987,7 +1081,13 @@ wnck_action_menu_init (WnckActionMenu *menu)
   menu->priv->window = NULL;
   menu->priv->minimize_item = NULL;
   menu->priv->maximize_item = NULL;
+  menu->priv->maximize_h_item = NULL;
+  menu->priv->maximize_v_item = NULL;
+  menu->priv->shade_item = NULL;
   menu->priv->above_item = NULL;
+  menu->priv->below_item = NULL;
+  menu->priv->raise_item = NULL;
+  menu->priv->lower_item = NULL;
   menu->priv->move_item = NULL;
   menu->priv->resize_item = NULL;
   menu->priv->close_item = NULL;
@@ -1042,6 +1142,21 @@ wnck_action_menu_constructor (GType                  type,
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->maximize_item);
 
+  priv->maximize_h_item = make_menu_item (MAXIMIZE_H);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->maximize_h_item);
+
+  priv->maximize_v_item = make_menu_item (MAXIMIZE_V);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->maximize_v_item);
+
+  priv->shade_item = make_menu_item (SHADE);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->shade_item);
+
   priv->move_item = make_menu_item (MOVE);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->move_item);
@@ -1066,6 +1181,12 @@ wnck_action_menu_constructor (GType                  type,
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->above_item);
+
+  priv->below_item = make_check_menu_item (BELOW,
+                                          _("Always At _Bottom"));
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->below_item);
 
   pin_group = NULL;
 
