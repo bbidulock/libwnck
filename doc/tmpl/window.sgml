@@ -256,6 +256,13 @@ WnckWindow
 @WNCK_WINDOW_MENU: 
 @WNCK_WINDOW_UTILITY: 
 @WNCK_WINDOW_SPLASHSCREEN: 
+@WNCK_WINDOW_COMBO:
+@WNCK_WINDOW_COMBOBOX:
+@WNCK_WINDOW_DND:
+@WNCK_WINDOW_DROPDOWN_MENU:
+@WNCK_WINDOW_NOTIFICATION:
+@WNCK_WINDOW_POPUP_MENU:
+@WNCK_WINDOW_TOOLTIP:
 
 <!-- ##### FUNCTION wnck_window_get_window_type ##### -->
 <para>
@@ -293,6 +300,11 @@ WnckWindow
 @WNCK_WINDOW_STATE_URGENT: 
 @WNCK_WINDOW_STATE_ABOVE: 
 @WNCK_WINDOW_STATE_BELOW: 
+@WNCK_WINDOW_STATE_FOCUSED: 
+@WNCK_WINDOW_STATE_MODAL: 
+@WNCK_WINDOW_STATE_FILLED: 
+@WNCK_WINDOW_STATE_FIXED: 
+@WNCK_WINDOW_STATE_FLOATING: 
 
 <!-- ##### FUNCTION wnck_window_get_state ##### -->
 <para>
@@ -411,6 +423,51 @@ WnckWindow
 @Returns: 
 
 
+<!-- ##### FUNCTION wnck_window_is_focused ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wnck_window_is_modal ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wnck_window_is_fixed ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wnck_window_is_filled ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wnck_window_is_floating ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
 <!-- ##### FUNCTION wnck_window_needs_attention ##### -->
 <para>
 
@@ -453,6 +510,10 @@ WnckWindow
 @WNCK_WINDOW_ACTION_FULLSCREEN: 
 @WNCK_WINDOW_ACTION_ABOVE: 
 @WNCK_WINDOW_ACTION_BELOW: 
+@WNCK_WINDOW_ACTION_FILL: 
+@WNCK_WINDOW_ACTION_UNFILL: 
+@WNCK_WINDOW_ACTION_FLOAT: 
+@WNCK_WINDOW_ACTION_UNFLOAT: 
 
 <!-- ##### FUNCTION wnck_window_get_actions ##### -->
 <para>
@@ -606,6 +667,32 @@ WnckWindow
 </para>
 
 @window: 
+
+<!-- ##### FUNCTION wnck_window_set_fixed ##### -->
+<para>
+
+</para>
+
+@window: 
+@fixed: 
+
+
+<!-- ##### FUNCTION wnck_window_set_filled ##### -->
+<para>
+
+</para>
+
+@window: 
+@fill: 
+
+
+<!-- ##### FUNCTION wnck_window_set_floating ##### -->
+<para>
+
+</para>
+
+@window: 
+@floats: 
 
 
 <!-- ##### FUNCTION wnck_window_set_skip_pager ##### -->

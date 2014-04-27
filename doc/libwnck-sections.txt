@@ -41,6 +41,11 @@ wnck_window_is_below
 wnck_window_is_skip_pager
 wnck_window_is_skip_tasklist
 wnck_window_is_fullscreen
+wnck_window_is_focused
+wnck_window_is_modal
+wnck_window_is_fixed
+wnck_window_is_filled
+wnck_window_is_floating
 wnck_window_needs_attention
 wnck_window_or_transient_needs_attention
 WnckWindowActions
@@ -63,6 +68,9 @@ wnck_window_make_above
 wnck_window_unmake_above
 wnck_window_make_below
 wnck_window_unmake_below
+wnck_window_set_fixed
+wnck_window_set_filled
+wnck_window_set_floating
 wnck_window_set_skip_pager
 wnck_window_set_skip_tasklist
 wnck_window_set_fullscreen

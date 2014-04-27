@@ -57,6 +57,11 @@ G_BEGIN_DECLS
  * wnck_window_make_above()).
  * @WNCK_WINDOW_STATE_BELOW: the window is below other windows (see
  * wnck_window_make_below()).
+ * @WNCK_WINDOW_STATE_FOCUSED: the window is focused.
+ * @WNCK_WINDOW_STATE_MODAL: the window is modal.
+ * @WNCK_WINDOW_STATE_FILLED: the window is filling available space.
+ * @WNCK_WINDOW_STATE_FIXED: the window is fixed in position.
+ * @WNCK_WINDOW_STATE_FLOATING: the window is floating in a tiled layout.
  *
  * Type used as a bitmask to describe the state of a #WnckWindow.
  */
@@ -74,7 +79,12 @@ typedef enum
   WNCK_WINDOW_STATE_DEMANDS_ATTENTION      = 1 << 9,
   WNCK_WINDOW_STATE_URGENT                 = 1 << 10,
   WNCK_WINDOW_STATE_ABOVE                  = 1 << 11,
-  WNCK_WINDOW_STATE_BELOW                  = 1 << 12
+  WNCK_WINDOW_STATE_BELOW                  = 1 << 12,
+  WNCK_WINDOW_STATE_FOCUSED                = 1 << 13,
+  WNCK_WINDOW_STATE_MODAL                  = 1 << 14,
+  WNCK_WINDOW_STATE_FIXED                  = 1 << 15,
+  WNCK_WINDOW_STATE_FILLED                 = 1 << 16,
+  WNCK_WINDOW_STATE_FLOATING               = 1 << 17
 } WnckWindowState;
 
 /**
@@ -103,6 +113,10 @@ typedef enum
  * @WNCK_WINDOW_ACTION_FULLSCREEN: the window may be brought to fullscreen.
  * @WNCK_WINDOW_ACTION_ABOVE: the window may be made above other windows.
  * @WNCK_WINDOW_ACTION_BELOW: the window may be made below other windows.
+ * @WNCK_WINDOW_ACTION_FILL: the window may be made to fill available area.
+ * @WNCK_WINDOW_ACTION_UNFILL: the window may be made to not fill available area.
+ * @WNCK_WINDOW_ACTION_FLOAT: the window may be made to float in tiled layouts.
+ * @WNCK_WINDOW_ACTION_UNFLOAT: the window may be made to tile in tiled layouts.
  *
  * Type used as a bitmask to describe the actions that can be done for a
  * #WnckWindow.
@@ -127,7 +141,11 @@ typedef enum
   WNCK_WINDOW_ACTION_UNMAXIMIZE              = 1 << 15,
   WNCK_WINDOW_ACTION_FULLSCREEN              = 1 << 16,
   WNCK_WINDOW_ACTION_ABOVE                   = 1 << 17,
-  WNCK_WINDOW_ACTION_BELOW                   = 1 << 18
+  WNCK_WINDOW_ACTION_BELOW                   = 1 << 18,
+  WNCK_WINDOW_ACTION_FILL                    = 1 << 19,
+  WNCK_WINDOW_ACTION_UNFILL                  = 1 << 20,
+  WNCK_WINDOW_ACTION_FLOAT                   = 1 << 21,
+  WNCK_WINDOW_ACTION_UNFLOAT                 = 1 << 22
 } WnckWindowActions;
 
 /**
@@ -142,6 +160,13 @@ typedef enum
  * as a palette or toolbox.
  * @WNCK_WINDOW_SPLASHSCREEN: the window is a splash screen displayed as an
  * application is starting up.
+ * @WNCK_WINDOW_COMBO: the window is a combo window.
+ * @WNCK_WINDOW_COMBOBOX: the window is a combo box.
+ * @WNCK_WINDOW_DND: the window is a drag-and-drop window.
+ * @WNCK_WINDOW_DROPDOWN_MENU: the window is a dropdown menu.
+ * @WNCK_WINDOW_NOTIFICATION: the window is a notification window.
+ * @WNCK_WINDOW_POPUP_MENU: the window is a popup menu.
+ * @WNCK_WINDOW_TOOLTIP: the window is a tooltip window.
  *
  * Type describing the semantic type of a #WnckWindow.
  */
@@ -154,7 +179,14 @@ typedef enum
   WNCK_WINDOW_TOOLBAR,      /* tearoff toolbar */
   WNCK_WINDOW_MENU,         /* tearoff menu */
   WNCK_WINDOW_UTILITY,      /* palette/toolbox window */
-  WNCK_WINDOW_SPLASHSCREEN  /* splash screen */
+  WNCK_WINDOW_SPLASHSCREEN, /* splash screen */
+  WNCK_WINDOW_COMBO,        /* combo */
+  WNCK_WINDOW_COMBOBOX,     /* combo box */
+  WNCK_WINDOW_DND,          /* dnd */
+  WNCK_WINDOW_DROPDOWN_MENU,/* dropdown menu */
+  WNCK_WINDOW_NOTIFICATION, /* notification */
+  WNCK_WINDOW_POPUP_MENU,   /* popup menu */
+  WNCK_WINDOW_TOOLTIP       /* tooltip */
 } WnckWindowType;
 
 /**
@@ -321,6 +353,19 @@ gboolean wnck_window_is_fullscreen             (WnckWindow *window);
 gboolean wnck_window_is_sticky                 (WnckWindow *window);
 gboolean wnck_window_needs_attention           (WnckWindow *window);
 gboolean wnck_window_or_transient_needs_attention (WnckWindow *window);
+
+gboolean wnck_window_is_focused                (WnckWindow *window);
+gboolean wnck_window_is_modal                  (WnckWindow *window);
+gboolean wnck_window_is_fixed                  (WnckWindow *window);
+gboolean wnck_window_is_filled                 (WnckWindow *window);
+gboolean wnck_window_is_floating               (WnckWindow *window);
+
+void wnck_window_set_fixed                     (WnckWindow *window,
+                                                gboolean fixed);
+void wnck_window_set_filled                    (WnckWindow *window,
+                                                gboolean fill);
+void wnck_window_set_floating                  (WnckWindow *window,
+                                                gboolean floats);
 
 void wnck_window_set_skip_pager    (WnckWindow *window,
                                     gboolean skip);

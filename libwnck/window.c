@@ -68,7 +68,12 @@ static GHashTable *window_hash = NULL;
     ((window)->priv->demands_attention   << 9) |        \
     ((window)->priv->is_urgent           << 10)|        \
     ((window)->priv->is_above            << 11)|        \
-    ((window)->priv->is_below            << 12))
+    ((window)->priv->is_below            << 12)|        \
+    ((window)->priv->is_focused          << 13)|        \
+    ((window)->priv->is_modal            << 14)|        \
+    ((window)->priv->is_fixed            << 15)|        \
+    ((window)->priv->is_filled           << 16)|        \
+    ((window)->priv->is_floating         << 17))
 
 struct _WnckWindowPrivate
 {
@@ -130,6 +135,12 @@ struct _WnckWindowPrivate
   guint is_fullscreen : 1;
   guint demands_attention : 1;
   guint is_urgent : 1;
+
+  guint is_focused : 1;
+  guint is_modal : 1;
+  guint is_fixed : 1;
+  guint is_filled : 1;
+  guint is_floating : 1;
 
   time_t needs_attention_time;
 
@@ -980,6 +991,27 @@ wnck_window_set_window_type (WnckWindow *window, WnckWindowType wintype)
   case WNCK_WINDOW_SPLASHSCREEN:
     atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_SPLASH");
     break;
+  case WNCK_WINDOW_COMBO:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_COMBO");
+    break;
+  case WNCK_WINDOW_COMBOBOX:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_COMBOBOX");
+    break;
+  case WNCK_WINDOW_DND:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_DND");
+    break;
+  case WNCK_WINDOW_DROPDOWN_MENU:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_DROPDOWN_MENU");
+    break;
+  case WNCK_WINDOW_NOTIFICATION:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_NOTIFICATION");
+    break;
+  case WNCK_WINDOW_POPUP_MENU:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_POPUP_MENU");
+    break;
+  case WNCK_WINDOW_TOOLTIP:
+    atom = _wnck_atom_get ("_NET_WM_WINDOW_TYPE_TOOLTIP");
+    break;
   default:
     return;
   }
@@ -1259,6 +1291,160 @@ wnck_window_is_below                  (WnckWindow *window)
   g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
 
   return window->priv->is_below;
+}
+
+/**
+ * wnck_window_is_focused:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is focused.  This state may change any time a
+ * #WnckWindow::state-changed signal gets emitted.
+ *
+ * Return value: %TRUE if @window is focused, %FALSE otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_focused                (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_focused;
+}
+
+/**
+ * wnck_window_is_modal:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is modal.  This state may change any time a
+ * #WnckWindow::state-changed signal gets emitted.
+ *
+ * Return value: %TRUE if @window is modal, %FALSE otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_modal                  (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_modal;
+}
+
+/**
+ * wnck_window_is_fixed:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is fixed in position.  This state may change
+ * any time a #WnckWindow::state-changed signal gets emitted.
+ *
+ * Return value: %TRUE if @window is fixed in position, %FALSE
+ * otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_fixed                  (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_fixed;
+}
+
+/**
+ * wnck_window_set_fixed:
+ * @window: a #WnckWindow.
+ * @fixed: whether @window should be fixed in position.
+ *
+ * Asks the window manager to make @window fixed in position.
+ **/
+void
+wnck_window_set_fixed (WnckWindow *window,
+                       gboolean fixed)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      fixed,
+                      _wnck_atom_get ("_NET_WM_STATE_FIXED"),
+                      0);
+}
+
+/**
+ * wnck_window_is_filled:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is filling available space.  This state may
+ * change any time a #WnckWindow::state-changed signal gets emitted.
+ *
+ * Return value: %TRUE if @window is filling available space, %FALSE
+ * otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_filled                 (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_filled;
+}
+
+/**
+ * wnck_window_set_filled:
+ * @window: a #WnckWindow.
+ * @fill: whether @window should fill available area.
+ *
+ * Asks the window manager to make @window fill available area.
+ **/
+void
+wnck_window_set_filled (WnckWindow *window,
+                        gboolean fill)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      fill,
+                      _wnck_atom_get ("_NET_WM_STATE_FILLED"),
+                      0);
+}
+
+/**
+ * wnck_window_is_floating:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is floating (as opposed to tiled).  This state
+ * may change any time a #WnckWindow::state-changed signal gets emitted.
+ *
+ * Return value: %TRUE if @window is floating, %FALSE otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_floating               (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_floating;
+}
+
+/**
+ * wnck_window_set_floating:
+ * @window: a #WnckWindow.
+ * @floats: whether @window should float the window in tiled layouts.
+ *
+ * Asks the window manager to make @window float under tiled layouts.
+ **/
+void
+wnck_window_set_floating (WnckWindow *window,
+                          gboolean floats)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      floats,
+                      _wnck_atom_get ("_NET_WM_STATE_FLOATING"),
+                      0);
 }
 
 /**
@@ -2640,6 +2826,11 @@ update_state (WnckWindow *window)
       window->priv->net_wm_state_hidden = FALSE;
       window->priv->is_fullscreen = FALSE;
       window->priv->demands_attention = FALSE;
+      window->priv->is_focused = FALSE;
+      window->priv->is_modal = FALSE;
+      window->priv->is_fixed = FALSE;
+      window->priv->is_filled = FALSE;
+      window->priv->is_floating = FALSE;
       
       atoms = NULL;
       n_atoms = 0;
@@ -2672,6 +2863,16 @@ update_state (WnckWindow *window)
             window->priv->skip_pager = TRUE;
           else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_DEMANDS_ATTENTION"))
             window->priv->demands_attention = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FOCUSED"))
+            window->priv->is_focused = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_MODAL"))
+            window->priv->is_modal = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FIXED"))
+            window->priv->is_fixed = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FILLED"))
+            window->priv->is_filled = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FLOATING"))
+            window->priv->is_floating = TRUE;
 
           ++i;
         }
@@ -2692,6 +2893,13 @@ update_state (WnckWindow *window)
     case WNCK_WINDOW_DESKTOP:
     case WNCK_WINDOW_DOCK:
     case WNCK_WINDOW_SPLASHSCREEN:
+    case WNCK_WINDOW_COMBO:
+    case WNCK_WINDOW_COMBOBOX:
+    case WNCK_WINDOW_DND:
+    case WNCK_WINDOW_DROPDOWN_MENU:
+    case WNCK_WINDOW_NOTIFICATION:
+    case WNCK_WINDOW_POPUP_MENU:
+    case WNCK_WINDOW_TOOLTIP:
       window->priv->skip_taskbar = TRUE;
       break;
 
@@ -2721,6 +2929,13 @@ update_state (WnckWindow *window)
     case WNCK_WINDOW_TOOLBAR:
     case WNCK_WINDOW_MENU:
     case WNCK_WINDOW_SPLASHSCREEN:
+    case WNCK_WINDOW_COMBO:
+    case WNCK_WINDOW_COMBOBOX:
+    case WNCK_WINDOW_DND:
+    case WNCK_WINDOW_DROPDOWN_MENU:
+    case WNCK_WINDOW_NOTIFICATION:
+    case WNCK_WINDOW_POPUP_MENU:
+    case WNCK_WINDOW_TOOLTIP:
       window->priv->skip_pager = TRUE;
       break;
       
@@ -2852,7 +3067,15 @@ update_actions (WnckWindow *window)
                 WNCK_WINDOW_ACTION_UNMAXIMIZE              |
                 WNCK_WINDOW_ACTION_FULLSCREEN              |
                 WNCK_WINDOW_ACTION_ABOVE                   |
-                WNCK_WINDOW_ACTION_BELOW;
+                WNCK_WINDOW_ACTION_BELOW                   |
+#if 0
+                /* don't assume these */
+                WNCK_WINDOW_ACTION_FILL                    |
+                WNCK_WINDOW_ACTION_UNFILL                  |
+                WNCK_WINDOW_ACTION_FLOAT                   |
+                WNCK_WINDOW_ACTION_UNFLOAT                 |
+#endif
+                0;
       return;
     }
 
@@ -2900,11 +3123,22 @@ update_actions (WnckWindow *window)
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_BELOW"))
         window->priv->actions |= WNCK_WINDOW_ACTION_BELOW;
 
+      else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FILL"))
+        window->priv->actions |= WNCK_WINDOW_ACTION_FILL |
+                                 WNCK_WINDOW_ACTION_UNFILL;
+
+      else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FLOAT"))
+        window->priv->actions |= WNCK_WINDOW_ACTION_FLOAT |
+                                 WNCK_WINDOW_ACTION_UNFLOAT;
+
+#if 0
+      /* these warning are annoying: the spec permits adding actions */
       else
         {
           const char *name = _wnck_atom_name (atoms [i]);
           g_warning ("Unhandled action type %s", name ? name: "(nil)");
         }
+#endif
 
       i++;
     }
@@ -2966,6 +3200,20 @@ update_wintype (WnckWindow *window)
             type = WNCK_WINDOW_UTILITY;
           else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_SPLASH"))
             type = WNCK_WINDOW_SPLASHSCREEN;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_COMBO"))
+            type = WNCK_WINDOW_COMBO;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_COMBOBOX"))
+            type = WNCK_WINDOW_COMBOBOX;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_DND"))
+            type = WNCK_WINDOW_DND;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_DROPDOWN_MENU"))
+            type = WNCK_WINDOW_DROPDOWN_MENU;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_NOTIFICATION"))
+            type = WNCK_WINDOW_NOTIFICATION;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_POPUP_MENU"))
+            type = WNCK_WINDOW_POPUP_MENU;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_WINDOW_TYPE_TOOLTIP"))
+            type = WNCK_WINDOW_TOOLTIP;
           else
             found_type = FALSE;
           

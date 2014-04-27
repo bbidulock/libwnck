@@ -114,6 +114,12 @@ gboolean set_shade = FALSE;
 gboolean set_unshade = FALSE;
 gboolean set_stick = FALSE;
 gboolean set_unstick = FALSE;
+gboolean set_fixed = FALSE;
+gboolean set_unfixed = FALSE;
+gboolean set_filled = FALSE;
+gboolean set_unfilled = FALSE;
+gboolean set_floating = FALSE;
+gboolean set_unfloating = FALSE;
 gboolean set_skip_pager = FALSE;
 gboolean set_unskip_pager = FALSE;
 gboolean set_skip_tasklist = FALSE;
@@ -243,6 +249,18 @@ static GOptionEntry window_entries[] = {
            * can be used to implement workspaces (e.g. compiz is an example);
            * however it is not just the current workspace. */
           N_("Make the window not have a fixed position in the viewport"), NULL },
+	{ "fix", 0, 0, G_OPTION_ARG_NONE, &set_fixed,
+          N_("Make the window have a fixed position"), NULL },
+	{ "unfix", 0, 0, G_OPTION_ARG_NONE, &set_unfixed,
+          N_("Make the window not have a fixed position"), NULL },
+	{ "fill", 0, 0, G_OPTION_ARG_NONE, &set_filled,
+          N_("Make the window fill available space"), NULL },
+	{ "unfill", 0, 0, G_OPTION_ARG_NONE, &set_unfilled,
+          N_("Make the window not fill available space"), NULL },
+	{ "float", 0, 0, G_OPTION_ARG_NONE, &set_floating,
+          N_("Make the window float in tiling layouts"), NULL },
+	{ "unfloat", 0, 0, G_OPTION_ARG_NONE, &set_unfloating,
+          N_("Make the window not float in tiling layouts"), NULL },
 	{ "skip-pager", 0, 0, G_OPTION_ARG_NONE, &set_skip_pager,
           /* Translators: A pager is the technical term for the workspace
            * switcher. It's a representation of all workspaces with windows
@@ -781,6 +799,9 @@ validate_options (void)
   CHECK_DUAL_OPTIONS (make_below, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (shade, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (stick, WINDOW_WRITE_MODE)
+  CHECK_DUAL_OPTIONS (fixed, WINDOW_WRITE_MODE)
+  CHECK_DUAL_OPTIONS (filled, WINDOW_WRITE_MODE)
+  CHECK_DUAL_OPTIONS (floating, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (skip_pager, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (skip_tasklist, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (pin, WINDOW_WRITE_MODE)
@@ -1018,6 +1039,9 @@ update_window (WnckWindow *window)
                      WNCK_WINDOW_ACTION_SHADE, WNCK_WINDOW_ACTION_UNSHADE)
   SET_PROPERTY_DUAL (stick,
                      WNCK_WINDOW_ACTION_STICK, WNCK_WINDOW_ACTION_UNSTICK)
+  SET_PROPERTY_BOOLEAN (fixed, actions, actions)
+  SET_PROPERTY_BOOLEAN (filled, actions, actions)
+  SET_PROPERTY_BOOLEAN (floating, actions, actions)
   SET_PROPERTY_BOOLEAN (skip_pager, actions, actions)
   SET_PROPERTY_BOOLEAN (skip_tasklist, actions, actions)
   SET_PROPERTY_DUAL (pin,
@@ -1577,6 +1601,10 @@ print_window (WnckWindow *window)
   PRINT_LIST_ITEM (wnck_window_is_below, _("below"));
   PRINT_LIST_ITEM (wnck_window_is_fullscreen, _("fullscreen"));
   PRINT_LIST_ITEM (wnck_window_needs_attention, _("needs attention"));
+  PRINT_LIST_ITEM (wnck_window_is_focused, _("focused"));
+  PRINT_LIST_ITEM (wnck_window_is_modal, _("modal"));
+  PRINT_LIST_ITEM (wnck_window_is_filled, _("filled"));
+  PRINT_LIST_ITEM (wnck_window_is_floating, _("floating"));
   /* Translators: A pager is the technical term for the workspace switcher.
    * It's a representation of all workspaces with windows inside it.
    * Please make sure that the translation is in sync with gnome-panel,
