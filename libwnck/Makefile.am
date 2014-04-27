@@ -153,6 +153,7 @@ wnck-enum-types.c: $(wnck_headers)
 inlinepixbufs_SOURCES =		\
 	default_icon.png	\
 	stock_above.png		\
+	stock_arranged.png	\
 	stock_below.png		\
 	stock_border.png	\
 	stock_delete.png	\
@@ -168,6 +169,7 @@ inlinepixbufs_SOURCES =		\
 	stock_minimize.png	\
 	stock_move.png		\
 	stock_normal.png	\
+	stock_notitlebar.png	\
 	stock_raise.png		\
 	stock_resize.png	\
 	stock_sendto_d.png	\
@@ -178,6 +180,7 @@ inlinepixbufs_SOURCES =		\
 	stock_shade.png		\
 	stock_stick.png		\
 	stock_titlebar.png	\
+	stock_unarranged.png	\
 	stock_unmaximize_b.png	\
 	stock_unmaximize_h.png	\
 	stock_unmaximize_v.png	\
@@ -189,6 +192,7 @@ inlinepixbufs_SOURCES =		\
 inlinepixbufs_pairs =							\
 	default_icon_data	$(srcdir)/default_icon.png		\
 	stock_above_data	$(srcdir)/stock_above.png		\
+	stock_arranged_data	$(srcdir)/stock_arranged.png		\
 	stock_below_data	$(srcdir)/stock_below.png		\
 	stock_border_data	$(srcdir)/stock_border.png		\
 	stock_delete_data	$(srcdir)/stock_delete.png		\
@@ -204,6 +208,7 @@ inlinepixbufs_pairs =							\
 	stock_minimize_data	$(srcdir)/stock_minimize.png		\
 	stock_move_data		$(srcdir)/stock_move.png		\
 	stock_normal_data	$(srcdir)/stock_normal.png		\
+	stock_notitlebar_data	$(srcdir)/stock_notitlebar.png		\
 	stock_raise_data	$(srcdir)/stock_raise.png		\
 	stock_resize_data	$(srcdir)/stock_resize.png		\
 	stock_sendto_d_data	$(srcdir)/stock_sendto_d.png		\
@@ -214,6 +219,7 @@ inlinepixbufs_pairs =							\
 	stock_shade_data	$(srcdir)/stock_shade.png		\
 	stock_stick_data	$(srcdir)/stock_stick.png		\
 	stock_titlebar_data	$(srcdir)/stock_titlebar.png		\
+	stock_unarranged_data	$(srcdir)/stock_unarranged.png		\
 	stock_unmaximize_b_data	$(srcdir)/stock_unmaximize_b.png	\
 	stock_unmaximize_h_data	$(srcdir)/stock_unmaximize_h.png	\
 	stock_unmaximize_v_data	$(srcdir)/stock_unmaximize_v.png	\

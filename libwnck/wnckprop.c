@@ -120,6 +120,8 @@ gboolean set_filled = FALSE;
 gboolean set_unfilled = FALSE;
 gboolean set_floating = FALSE;
 gboolean set_unfloating = FALSE;
+gboolean set_undecorated = FALSE;
+gboolean set_unundecorated = FALSE;
 gboolean set_skip_pager = FALSE;
 gboolean set_unskip_pager = FALSE;
 gboolean set_skip_tasklist = FALSE;
@@ -261,6 +263,10 @@ static GOptionEntry window_entries[] = {
           N_("Make the window float in tiling layouts"), NULL },
 	{ "unfloat", 0, 0, G_OPTION_ARG_NONE, &set_unfloating,
           N_("Make the window not float in tiling layouts"), NULL },
+	{ "unfloat", 0, 0, G_OPTION_ARG_NONE, &set_undecorated,
+          N_("Make the window be undecorated."), NULL },
+	{ "decorate", 0, 0, G_OPTION_ARG_NONE, &set_unundecorated,
+          N_("Make the window normally decorated."), NULL },
 	{ "skip-pager", 0, 0, G_OPTION_ARG_NONE, &set_skip_pager,
           /* Translators: A pager is the technical term for the workspace
            * switcher. It's a representation of all workspaces with windows
@@ -802,6 +808,7 @@ validate_options (void)
   CHECK_DUAL_OPTIONS (fixed, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (filled, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (floating, WINDOW_WRITE_MODE)
+  CHECK_DUAL_OPTIONS (undecorated, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (skip_pager, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (skip_tasklist, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (pin, WINDOW_WRITE_MODE)
@@ -1042,6 +1049,7 @@ update_window (WnckWindow *window)
   SET_PROPERTY_BOOLEAN (fixed, actions, actions)
   SET_PROPERTY_BOOLEAN (filled, actions, actions)
   SET_PROPERTY_BOOLEAN (floating, actions, actions)
+  SET_PROPERTY_BOOLEAN (undecorated, actions, actions)
   SET_PROPERTY_BOOLEAN (skip_pager, actions, actions)
   SET_PROPERTY_BOOLEAN (skip_tasklist, actions, actions)
   SET_PROPERTY_DUAL (pin,
@@ -1605,6 +1613,7 @@ print_window (WnckWindow *window)
   PRINT_LIST_ITEM (wnck_window_is_modal, _("modal"));
   PRINT_LIST_ITEM (wnck_window_is_filled, _("filled"));
   PRINT_LIST_ITEM (wnck_window_is_floating, _("floating"));
+  PRINT_LIST_ITEM (wnck_window_is_undecorated, _("undecorated"));
   /* Translators: A pager is the technical term for the workspace switcher.
    * It's a representation of all workspaces with windows inside it.
    * Please make sure that the translation is in sync with gnome-panel,

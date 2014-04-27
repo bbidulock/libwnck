@@ -33,6 +33,7 @@
 G_BEGIN_DECLS
 
 #define WNCK_STOCK_ABOVE         "wnck-stock-above"
+#define WNCK_STOCK_ARRANGED      "wnck-stock-arranged"
 #define WNCK_STOCK_BELOW         "wnck-stock-below"
 #define WNCK_STOCK_BORDER        "wnck-stock-border"
 #define WNCK_STOCK_DELETE        "wnck-stock-delete"
@@ -48,6 +49,7 @@ G_BEGIN_DECLS
 #define WNCK_STOCK_MINIMIZE      "wnck-stock-minimize"
 #define WNCK_STOCK_MOVE          "wnck-stock-move"
 #define WNCK_STOCK_NORMAL        "wnck-stock-normal"
+#define WNCK_STOCK_NOTITLEBAR    "wnck-stock-notitlebar"
 #define WNCK_STOCK_RAISE         "wnck-stock-raise"
 #define WNCK_STOCK_RESIZE        "wnck-stock-resize"
 #define WNCK_STOCK_SENDTO_D      "wnck-stock-sendto-d"
@@ -58,6 +60,7 @@ G_BEGIN_DECLS
 #define WNCK_STOCK_SHADE         "wnck-stock-shade"
 #define WNCK_STOCK_STICK         "wnck-stock-stick"
 #define WNCK_STOCK_TITLEBAR      "wnck-stock-titlebar"
+#define WNCK_STOCK_UNARRANGED    "wnck-stock-unarranged"
 #define WNCK_STOCK_UNMAXIMIZE_B  "wnck-stock-unmaximize-b"
 #define WNCK_STOCK_UNMAXIMIZE_H  "wnck-stock-unmaximize-h"
 #define WNCK_STOCK_UNMAXIMIZE_V  "wnck-stock-unmaximize-v"

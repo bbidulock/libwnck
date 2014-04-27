@@ -73,7 +73,8 @@ static GHashTable *window_hash = NULL;
     ((window)->priv->is_modal            << 14)|        \
     ((window)->priv->is_fixed            << 15)|        \
     ((window)->priv->is_filled           << 16)|        \
-    ((window)->priv->is_floating         << 17))
+    ((window)->priv->is_floating         << 17)|        \
+    ((window)->priv->is_undecorated      << 18))
 
 struct _WnckWindowPrivate
 {
@@ -141,6 +142,7 @@ struct _WnckWindowPrivate
   guint is_fixed : 1;
   guint is_filled : 1;
   guint is_floating : 1;
+  guint is_undecorated : 1;
 
   time_t needs_attention_time;
 
@@ -1446,6 +1448,46 @@ wnck_window_set_floating (WnckWindow *window,
                       _wnck_atom_get ("_NET_WM_STATE_FLOATING"),
                       0);
 }
+
+/**
+ * wnck_window_is_undecorated:
+ * @window: a #WnckWindow
+ *
+ * Gets whether @window is undecorated (as opposed to normally decorated).
+ * This state may change any time a #WnckWindow::state-changed signal gets
+ * emmited.
+ *
+ * Return value: %TRUE if @window is undecorated, %FALSE otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_undecorated            (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_undecorated;
+}
+
+/**
+ * wnck_window_set_undecorated:
+ * @window: a #WnckWindow.
+ * @nodecor: whether @window should be undecorated.
+ *
+ * Asks the window manager to make @window undecorated.
+ **/
+void
+wnck_window_set_undecorated (WnckWindow *window,
+                             gboolean nodecor)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      nodecor,
+                      _wnck_atom_get ("_OB_WM_STATE_UNDECORATED"),
+                      0);
+}
+
 
 /**
  * wnck_window_is_skip_pager:
@@ -2831,6 +2873,7 @@ update_state (WnckWindow *window)
       window->priv->is_fixed = FALSE;
       window->priv->is_filled = FALSE;
       window->priv->is_floating = FALSE;
+      window->priv->is_undecorated = FALSE;
       
       atoms = NULL;
       n_atoms = 0;
@@ -2873,6 +2916,8 @@ update_state (WnckWindow *window)
             window->priv->is_filled = TRUE;
           else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FLOATING"))
             window->priv->is_floating = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_OB_WM_STATE_UNDECORATED"))
+            window->priv->is_undecorated = TRUE;
 
           ++i;
         }
@@ -3130,6 +3175,13 @@ update_actions (WnckWindow *window)
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FLOAT"))
         window->priv->actions |= WNCK_WINDOW_ACTION_FLOAT |
                                  WNCK_WINDOW_ACTION_UNFLOAT;
+
+      else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_SKIP_ARRANGE"))
+        window->priv->actions |= WNCK_WINDOW_ACTION_FLOAT |
+                                 WNCK_WINDOW_ACTION_UNFLOAT;
+
+      else if (atoms[i] == _wnck_atom_get ("_OB_WM_ACTION_UNDECORATE"))
+        window->priv->actions |= WNCK_WINDOW_ACTION_UNDECORATE;
 
 #if 0
       /* these warning are annoying: the spec permits adding actions */

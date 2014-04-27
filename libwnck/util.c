@@ -770,6 +770,7 @@ _wnck_stock_icons_init (void)
   StockIcon items[] =
   {
     { WNCK_STOCK_ABOVE,        stock_above_data         },
+    { WNCK_STOCK_ARRANGED,     stock_arranged_data      },
     { WNCK_STOCK_BELOW,        stock_below_data         },
     { WNCK_STOCK_BORDER,       stock_border_data        },
     { WNCK_STOCK_DELETE,       stock_delete_data        },
@@ -785,6 +786,7 @@ _wnck_stock_icons_init (void)
     { WNCK_STOCK_MINIMIZE,     stock_minimize_data      },
     { WNCK_STOCK_MOVE,         stock_move_data          },
     { WNCK_STOCK_NORMAL,       stock_normal_data        },
+    { WNCK_STOCK_NOTITLEBAR,   stock_notitlebar_data    },
     { WNCK_STOCK_RAISE,        stock_raise_data         },
     { WNCK_STOCK_RESIZE,       stock_resize_data        },
     { WNCK_STOCK_SENDTO_D,     stock_sendto_d_data      },
@@ -795,6 +797,7 @@ _wnck_stock_icons_init (void)
     { WNCK_STOCK_SHADE,        stock_shade_data         },
     { WNCK_STOCK_STICK,        stock_stick_data         },
     { WNCK_STOCK_TITLEBAR,     stock_titlebar_data      },
+    { WNCK_STOCK_UNARRANGED,   stock_unarranged_data    },
     { WNCK_STOCK_UNMAXIMIZE_B, stock_unmaximize_b_data  },
     { WNCK_STOCK_UNMAXIMIZE_H, stock_unmaximize_h_data  },
     { WNCK_STOCK_UNMAXIMIZE_V, stock_unmaximize_v_data  },

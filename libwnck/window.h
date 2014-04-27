@@ -62,6 +62,7 @@ G_BEGIN_DECLS
  * @WNCK_WINDOW_STATE_FILLED: the window is filling available space.
  * @WNCK_WINDOW_STATE_FIXED: the window is fixed in position.
  * @WNCK_WINDOW_STATE_FLOATING: the window is floating in a tiled layout.
+ * @WNCK_WINDOW_STATE_UNDECORATED: the window is undecorated.
  *
  * Type used as a bitmask to describe the state of a #WnckWindow.
  */
@@ -84,7 +85,8 @@ typedef enum
   WNCK_WINDOW_STATE_MODAL                  = 1 << 14,
   WNCK_WINDOW_STATE_FIXED                  = 1 << 15,
   WNCK_WINDOW_STATE_FILLED                 = 1 << 16,
-  WNCK_WINDOW_STATE_FLOATING               = 1 << 17
+  WNCK_WINDOW_STATE_FLOATING               = 1 << 17,
+  WNCK_WINDOW_STATE_UNDECORATED            = 1 << 18
 } WnckWindowState;
 
 /**
@@ -117,6 +119,7 @@ typedef enum
  * @WNCK_WINDOW_ACTION_UNFILL: the window may be made to not fill available area.
  * @WNCK_WINDOW_ACTION_FLOAT: the window may be made to float in tiled layouts.
  * @WNCK_WINDOW_ACTION_UNFLOAT: the window may be made to tile in tiled layouts.
+ * @WNCK_WINDOW_ACTION_UNDECORATE: the window may be made to have no decorations.
  *
  * Type used as a bitmask to describe the actions that can be done for a
  * #WnckWindow.
@@ -145,7 +148,8 @@ typedef enum
   WNCK_WINDOW_ACTION_FILL                    = 1 << 19,
   WNCK_WINDOW_ACTION_UNFILL                  = 1 << 20,
   WNCK_WINDOW_ACTION_FLOAT                   = 1 << 21,
-  WNCK_WINDOW_ACTION_UNFLOAT                 = 1 << 22
+  WNCK_WINDOW_ACTION_UNFLOAT                 = 1 << 22,
+  WNCK_WINDOW_ACTION_UNDECORATE              = 1 << 23
 } WnckWindowActions;
 
 /**
@@ -359,6 +363,7 @@ gboolean wnck_window_is_modal                  (WnckWindow *window);
 gboolean wnck_window_is_fixed                  (WnckWindow *window);
 gboolean wnck_window_is_filled                 (WnckWindow *window);
 gboolean wnck_window_is_floating               (WnckWindow *window);
+gboolean wnck_window_is_undecorated            (WnckWindow *window);
 
 void wnck_window_set_fixed                     (WnckWindow *window,
                                                 gboolean fixed);
@@ -366,6 +371,8 @@ void wnck_window_set_filled                    (WnckWindow *window,
                                                 gboolean fill);
 void wnck_window_set_floating                  (WnckWindow *window,
                                                 gboolean floats);
+void wnck_window_set_undecorated               (WnckWindow *window,
+                                                gboolean nodecor);
 
 void wnck_window_set_skip_pager    (WnckWindow *window,
                                     gboolean skip);

@@ -69,6 +69,7 @@ typedef enum
   SHADE,
   ABOVE,
   BELOW,
+  UNDECORATE,
   RAISE,
   LOWER,
   MOVE,
@@ -91,6 +92,7 @@ struct _WnckActionMenuPrivate
   GtkWidget *shade_item;
   GtkWidget *above_item;
   GtkWidget *below_item;
+  GtkWidget *undec_item;
   GtkWidget *raise_item;
   GtkWidget *lower_item;
   GtkWidget *move_item;
@@ -233,6 +235,12 @@ item_activated_callback (GtkWidget *menu_item,
         wnck_window_unmake_below (window);
       else
         wnck_window_make_below (window);
+      break;
+    case UNDECORATE:
+      if (wnck_window_is_undecorated (window))
+        wnck_window_set_undecorated (window, FALSE);
+      else
+        wnck_window_set_undecorated (window, TRUE);
       break;
     case MOVE:
       wnck_window_keyboard_move (window);
@@ -552,6 +560,21 @@ update_menu_state (WnckActionMenu *menu)
       set_item_stock (priv->below_item, WNCK_STOCK_BELOW);
       gtk_widget_set_sensitive (priv->below_item,
                                 (actions & WNCK_WINDOW_ACTION_BELOW) != 0);
+    }
+
+  if (wnck_window_is_undecorated (priv->window))
+    {
+      set_item_text (priv->undec_item, _("_Decorate"));
+      set_item_stock (priv->undec_item, WNCK_STOCK_TITLEBAR);
+      gtk_widget_set_sensitive (priv->undec_item,
+                                (actions & WNCK_WINDOW_ACTION_UNDECORATE) != 0);
+    }
+  else
+    {
+      set_item_text (priv->undec_item, _("Un_decorate"));
+      set_item_stock (priv->undec_item, WNCK_STOCK_NOTITLEBAR);
+      gtk_widget_set_sensitive (priv->undec_item,
+                                (actions & WNCK_WINDOW_ACTION_UNDECORATE) != 0);
     }
 
   if (wnck_window_is_pinned (priv->window))
@@ -1076,6 +1099,7 @@ wnck_action_menu_init (WnckActionMenu *menu)
   menu->priv->shade_item = NULL;
   menu->priv->above_item = NULL;
   menu->priv->below_item = NULL;
+  menu->priv->undec_item = NULL;
   menu->priv->raise_item = NULL;
   menu->priv->lower_item = NULL;
   menu->priv->move_item = NULL;
@@ -1173,6 +1197,11 @@ wnck_action_menu_constructor (GType                  type,
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->below_item);
+
+  priv->undec_item = make_menu_item (UNDECORATE);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->undec_item);
 
   priv->pin_item = make_menu_item (PIN);
 
