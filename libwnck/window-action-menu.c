@@ -1138,15 +1138,15 @@ wnck_action_menu_constructor (GType                  type,
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->maximize_item);
 
-  priv->maximize_h_item = make_menu_item (MAXIMIZE_H);
-
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
-                         priv->maximize_h_item);
-
   priv->maximize_v_item = make_menu_item (MAXIMIZE_V);
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->maximize_v_item);
+
+  priv->maximize_h_item = make_menu_item (MAXIMIZE_H);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->maximize_h_item);
 
   priv->shade_item = make_menu_item (SHADE);
 
