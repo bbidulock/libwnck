@@ -3093,7 +3093,7 @@ wnck_task_popup_menu (WnckTask *task,
 			       0);
 
       menu_item =  gtk_image_menu_item_new_with_mnemonic (_("_Unmaximize All"));
-      image = gtk_image_new_from_stock (WNCK_STOCK_UNMAXIMIZE, GTK_ICONS_SIZE_MENU);
+      image = gtk_image_new_from_stock (WNCK_STOCK_UNMAXIMIZE, GTK_ICON_SIZE_MENU);
       gtk_widget_show (image);
       gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), image);
       gtk_widget_show (menu_item);
