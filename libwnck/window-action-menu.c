@@ -74,7 +74,6 @@ typedef enum
   MOVE,
   RESIZE,
   PIN,
-  UNPIN,
   LEFT,
   RIGHT,
   UP,
@@ -99,7 +98,6 @@ struct _WnckActionMenuPrivate
   GtkWidget *close_item;
   GtkWidget *workspace_separator;
   GtkWidget *pin_item;
-  GtkWidget *unpin_item;
   GtkWidget *left_item;
   GtkWidget *right_item;
   GtkWidget *up_item;
@@ -244,15 +242,19 @@ item_activated_callback (GtkWidget *menu_item,
       break;
     case PIN:
       if (!viewport_mode)
-        wnck_window_pin (window);
+        {
+          if (wnck_window_is_pinned (window))
+            wnck_window_unpin (window);
+          else
+            wnck_window_pin (window);
+        }
       else
-        wnck_window_stick (window);
-      break;
-    case UNPIN:
-      if (!viewport_mode)
-        wnck_window_unpin (window);
-      else
-        wnck_window_unstick (window);
+        {
+          if (wnck_window_is_sticky (window))
+            wnck_window_unstick (window);
+          else
+            wnck_window_stick (window);
+        }
       break;
     case LEFT:
       if (!viewport_mode)
@@ -522,55 +524,50 @@ update_menu_state (WnckActionMenu *menu)
                                 (actions & WNCK_WINDOW_ACTION_SHADE) != 0);
     }
 
-  g_signal_handlers_block_by_func (G_OBJECT (priv->above_item),
-                                   item_activated_callback,
-                                   GINT_TO_POINTER (ABOVE));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (priv->above_item),
-                                  wnck_window_is_above (priv->window));
-  g_signal_handlers_unblock_by_func (G_OBJECT (priv->above_item),
-                                     item_activated_callback,
-                                     GINT_TO_POINTER (ABOVE));
-
-  gtk_widget_set_sensitive (priv->above_item,
-                            (actions & WNCK_WINDOW_ACTION_ABOVE) != 0);
-
-  g_signal_handlers_block_by_func (G_OBJECT (priv->below_item),
-                                   item_activated_callback,
-                                   GINT_TO_POINTER (BELOW));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (priv->below_item),
-                                  wnck_window_is_below (priv->window));
-  g_signal_handlers_unblock_by_func (G_OBJECT (priv->below_item),
-                                     item_activated_callback,
-                                     GINT_TO_POINTER (BELOW));
-
-  gtk_widget_set_sensitive (priv->below_item,
-                            (actions & WNCK_WINDOW_ACTION_BELOW) != 0);
-
-  g_signal_handlers_block_by_func (G_OBJECT (priv->pin_item),
-                                   item_activated_callback,
-                                   GINT_TO_POINTER (PIN));
-  g_signal_handlers_block_by_func (G_OBJECT (priv->unpin_item),
-                                   item_activated_callback,
-                                   GINT_TO_POINTER (UNPIN));
-  if ((viewport_mode  && wnck_window_is_sticky (priv->window)) ||
-      (!viewport_mode && wnck_window_is_pinned (priv->window)))
-          gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (priv->pin_item),
-                                          TRUE);
+  if (wnck_window_is_above (priv->window))
+    {
+      set_item_text (priv->above_item, _("Always On _Top"));
+      set_item_stock (priv->above_item, WNCK_STOCK_NORMAL);
+      gtk_widget_set_sensitive (priv->above_item,
+                                (actions & WNCK_WINDOW_ACTION_ABOVE) != 0);
+    }
   else
-          gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (priv->unpin_item),
-                                          TRUE);
-  g_signal_handlers_unblock_by_func (G_OBJECT (priv->pin_item),
-                                     item_activated_callback,
-                                     GINT_TO_POINTER (PIN));
-  g_signal_handlers_unblock_by_func (G_OBJECT (priv->unpin_item),
-                                     item_activated_callback,
-                                     GINT_TO_POINTER (UNPIN));
+    {
+      set_item_text (priv->above_item, _("Always On _Top"));
+      set_item_stock (priv->above_item, WNCK_STOCK_ABOVE);
+      gtk_widget_set_sensitive (priv->above_item,
+                                (actions & WNCK_WINDOW_ACTION_ABOVE) != 0);
+    }
 
-  gtk_widget_set_sensitive (priv->pin_item,
-                            move_workspace_sensitive);
+  if (wnck_window_is_below (priv->window))
+    {
+      set_item_text (priv->below_item, _("Always At _Bottom"));
+      set_item_stock (priv->below_item, WNCK_STOCK_NORMAL);
+      gtk_widget_set_sensitive (priv->below_item,
+                                (actions & WNCK_WINDOW_ACTION_BELOW) != 0);
+    }
+  else
+    {
+      set_item_text (priv->below_item, _("Always At _Bottom"));
+      set_item_stock (priv->below_item, WNCK_STOCK_BELOW);
+      gtk_widget_set_sensitive (priv->below_item,
+                                (actions & WNCK_WINDOW_ACTION_BELOW) != 0);
+    }
 
-  gtk_widget_set_sensitive (priv->unpin_item,
-                            move_workspace_sensitive);
+  if (wnck_window_is_pinned (priv->window))
+    {
+      set_item_text (priv->pin_item, _("_Only on This Workspace"));
+      set_item_stock (priv->pin_item, WNCK_STOCK_UNSTICK);
+      gtk_widget_set_sensitive (priv->pin_item,
+                                (actions & WNCK_WINDOW_ACTION_CHANGE_WORKSPACE) != 0);
+    }
+  else
+    {
+      set_item_text (priv->pin_item, _("_Always on Visible Workspace"));
+      set_item_stock (priv->pin_item, WNCK_STOCK_STICK);
+      gtk_widget_set_sensitive (priv->pin_item,
+                                (actions & WNCK_WINDOW_ACTION_CHANGE_WORKSPACE) != 0);
+    }
 
   gtk_widget_set_sensitive (priv->close_item,
                             (actions & WNCK_WINDOW_ACTION_CLOSE) != 0);
@@ -682,7 +679,6 @@ update_menu_state (WnckActionMenu *menu)
 
       gtk_widget_show (priv->workspace_separator);
       gtk_widget_show (priv->pin_item);
-      gtk_widget_show (priv->unpin_item);
       if (viewport_width  >= 2 * screen_width ||
           viewport_height >= 2 * screen_height)
         {
@@ -699,7 +695,6 @@ update_menu_state (WnckActionMenu *menu)
     {
       gtk_widget_show (priv->workspace_separator);
       gtk_widget_show (priv->pin_item);
-      gtk_widget_show (priv->unpin_item);
       gtk_widget_show (priv->workspace_item);
       refill_submenu_workspace (menu);
     }
@@ -707,7 +702,6 @@ update_menu_state (WnckActionMenu *menu)
     {
       gtk_widget_hide (priv->workspace_separator);
       gtk_widget_hide (priv->pin_item);
-      gtk_widget_hide (priv->unpin_item);
       gtk_widget_hide (priv->workspace_item);
       gtk_menu_popdown (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (priv->workspace_item))));
     }
@@ -1089,7 +1083,6 @@ wnck_action_menu_init (WnckActionMenu *menu)
   menu->priv->close_item = NULL;
   menu->priv->workspace_separator = NULL;
   menu->priv->pin_item = NULL;
-  menu->priv->unpin_item = NULL;
   menu->priv->left_item = NULL;
   menu->priv->right_item = NULL;
   menu->priv->up_item = NULL;
@@ -1108,7 +1101,6 @@ wnck_action_menu_constructor (GType                  type,
   WnckActionMenuPrivate *priv;
   GtkWidget             *submenu;
   GtkWidget             *separator;
-  GSList                *pin_group;
   WnckScreen            *screen;
 
 
@@ -1172,29 +1164,20 @@ wnck_action_menu_constructor (GType                  type,
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          separator);
 
-  priv->above_item = make_check_menu_item (ABOVE,
-                                          _("Always On _Top"));
+  priv->above_item = make_menu_item (ABOVE);
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->above_item);
 
-  priv->below_item = make_check_menu_item (BELOW,
-                                          _("Always At _Bottom"));
+  priv->below_item = make_menu_item (BELOW);
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->below_item);
 
-  pin_group = NULL;
+  priv->pin_item = make_menu_item (PIN);
 
-  priv->pin_item = make_radio_menu_item (PIN, &pin_group,
-                                        _("_Always on Visible Workspace"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->pin_item);
-
-  priv->unpin_item = make_radio_menu_item (UNPIN, &pin_group,
-                                          _("_Only on This Workspace"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
-                         priv->unpin_item);
 
   priv->left_item = make_menu_item (LEFT);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
