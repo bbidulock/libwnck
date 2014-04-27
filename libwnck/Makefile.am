@@ -150,12 +150,77 @@ wnck-enum-types.c: $(wnck_headers)
 		--vtail "  return type;\n}\n\n" \
 		$^ > $@
 
-inlinepixbufs_SOURCES = default_icon.png stock_delete.png stock_maximize.png stock_minimize.png
-inlinepixbufs_pairs =						\
-	default_icon_data $(srcdir)/default_icon.png 		\
-	stock_delete_data $(srcdir)/stock_delete.png 		\
-	stock_maximize_data $(srcdir)/stock_maximize.png 	\
-	stock_minimize_data $(srcdir)/stock_minimize.png
+inlinepixbufs_SOURCES =		\
+	default_icon.png	\
+	stock_above.png		\
+	stock_below.png		\
+	stock_border.png	\
+	stock_delete.png	\
+	stock_command.png	\
+	stock_focus.png		\
+	stock_kill.png		\
+	stock_lower.png		\
+	stock_maximize_b.png	\
+	stock_maximize_h.png	\
+	stock_maximize_v.png	\
+	stock_maximize.png	\
+	stock_menu.png		\
+	stock_minimize.png	\
+	stock_move.png		\
+	stock_normal.png	\
+	stock_raise.png		\
+	stock_resize.png	\
+	stock_sendto_d.png	\
+	stock_sendto_l.png	\
+	stock_sendto_r.png	\
+	stock_sendto_u.png	\
+	stock_sendto.png	\
+	stock_shade.png		\
+	stock_stick.png		\
+	stock_titlebar.png	\
+	stock_unmaximize_b.png	\
+	stock_unmaximize_h.png	\
+	stock_unmaximize_v.png	\
+	stock_unmaximize.png	\
+	stock_unminimize.png	\
+	stock_unshade.png	\
+	stock_unstick.png
+
+inlinepixbufs_pairs =							\
+	default_icon_data	$(srcdir)/default_icon.png		\
+	stock_above_data	$(srcdir)/stock_above.png		\
+	stock_below_data	$(srcdir)/stock_below.png		\
+	stock_border_data	$(srcdir)/stock_border.png		\
+	stock_delete_data	$(srcdir)/stock_delete.png		\
+	stock_command_data	$(srcdir)/stock_command.png		\
+	stock_focus_data	$(srcdir)/stock_focus.png		\
+	stock_kill_data		$(srcdir)/stock_kill.png		\
+	stock_lower_data	$(srcdir)/stock_lower.png		\
+	stock_maximize_b_data	$(srcdir)/stock_maximize_b.png		\
+	stock_maximize_h_data	$(srcdir)/stock_maximize_h.png		\
+	stock_maximize_v_data	$(srcdir)/stock_maximize_v.png		\
+	stock_maximize_data	$(srcdir)/stock_maximize.png		\
+	stock_menu_data		$(srcdir)/stock_menu.png		\
+	stock_minimize_data	$(srcdir)/stock_minimize.png		\
+	stock_move_data		$(srcdir)/stock_move.png		\
+	stock_normal_data	$(srcdir)/stock_normal.png		\
+	stock_raise_data	$(srcdir)/stock_raise.png		\
+	stock_resize_data	$(srcdir)/stock_resize.png		\
+	stock_sendto_d_data	$(srcdir)/stock_sendto_d.png		\
+	stock_sendto_l_data	$(srcdir)/stock_sendto_l.png		\
+	stock_sendto_r_data	$(srcdir)/stock_sendto_r.png		\
+	stock_sendto_u_data	$(srcdir)/stock_sendto_u.png		\
+	stock_sendto_data	$(srcdir)/stock_sendto.png		\
+	stock_shade_data	$(srcdir)/stock_shade.png		\
+	stock_stick_data	$(srcdir)/stock_stick.png		\
+	stock_titlebar_data	$(srcdir)/stock_titlebar.png		\
+	stock_unmaximize_b_data	$(srcdir)/stock_unmaximize_b.png	\
+	stock_unmaximize_h_data	$(srcdir)/stock_unmaximize_h.png	\
+	stock_unmaximize_v_data	$(srcdir)/stock_unmaximize_v.png	\
+	stock_unmaximize_data	$(srcdir)/stock_unmaximize.png		\
+	stock_unminimize_data	$(srcdir)/stock_unminimize.png		\
+	stock_unshade_data	$(srcdir)/stock_unshade.png		\
+	stock_unstick_data	$(srcdir)/stock_unstick.png
 
 inlinepixbufs.h: $(inlinepixbufs_SOURCES)
 	$(AM_V_GEN)$(GDK_PIXBUF_CSOURCE) --raw --build-list $(inlinepixbufs_pairs) > $@
