@@ -212,6 +212,15 @@ WnckScreen
 @Returns: 
 
 
+<!-- ##### FUNCTION wnck_screen_get_window_manager_pid ##### -->
+<para>
+
+</para>
+
+@screen: 
+@Returns: 
+
+
 <!-- ##### FUNCTION wnck_screen_net_wm_supports ##### -->
 <para>
 

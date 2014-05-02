@@ -100,6 +100,7 @@ struct _WnckScreenPrivate
   Pixmap bg_pixmap;
 
   char *wm_name;
+  pid_t wm_pid;
   
   guint update_handler;  
 
@@ -218,6 +219,7 @@ wnck_screen_init (WnckScreen *screen)
   screen->priv->bg_pixmap = None;
 
   screen->priv->wm_name = NULL;
+  screen->priv->wm_pid = 0;
 
   screen->priv->update_handler = 0;
 
@@ -550,6 +552,7 @@ wnck_screen_finalize (GObject *object)
 
   g_free (screen->priv->wm_name);
   screen->priv->wm_name = NULL;
+  screen->priv->wm_pid = 0;
 
   screens[screen->priv->number] = NULL;
 
@@ -1158,6 +1161,12 @@ _wnck_screen_process_property_notify (WnckScreen *screen,
     }
   else if (xevent->xproperty.atom ==
            _wnck_atom_get ("_NET_SUPPORTING_WM_CHECK"))
+    {
+      screen->priv->need_update_wm = TRUE;
+      queue_update (screen);
+    }
+  else if (xevent->xproperty.atom ==
+           _wnck_atom_get ("_NET_SUPPORTED"))
     {
       screen->priv->need_update_wm = TRUE;
       queue_update (screen);
@@ -2297,12 +2306,81 @@ update_wm (WnckScreen *screen)
                     &wm_window);
 
   g_free (screen->priv->wm_name);
+  screen->priv->wm_name = NULL;
+  screen->priv->wm_pid = 0;
 
   if (wm_window != None)
-    screen->priv->wm_name = _wnck_get_utf8_property (wm_window,
-                                                     _wnck_atom_get ("_NET_WM_NAME"));
+    {
+      screen->priv->wm_name = _wnck_get_utf8_property (wm_window,
+                                                       _wnck_atom_get ("_NET_WM_NAME"));
+      if (!screen->priv->wm_name)
+        screen->priv->wm_name = _wnck_get_text_property (wm_window,
+                                                         _wnck_atom_get ("WM_NAME"));
+      if (!screen->priv->wm_name)
+        _wnck_get_wmclass (wm_window, NULL, &screen->priv->wm_name);
+
+      if (!screen->priv->wm_name)
+        {
+          screen->priv->wm_name = _wnck_get_utf8_property (screen->priv->xroot,
+                                                           _wnck_atom_get ("_NET_WM_NAME"));
+          if (!screen->priv->wm_name)
+            screen->priv->wm_name = _wnck_get_text_property (screen->priv->xroot,
+                                                             _wnck_atom_get ("WM_NAME"));
+          if (!screen->priv->wm_name)
+            _wnck_get_wmclass (screen->priv->xroot, NULL, &screen->priv->wm_name);
+        }
+    }
+  if (screen->priv->wm_name)
+    {
+      if (!strcmp(screen->priv->wm_name, "workspacemanager"))
+        {
+          g_free(screen->priv->wm_name);
+          screen->priv->wm_name = g_strdup("ctwm");
+        }
+      if (!strcmp(screen->priv->wm_name, "w"))
+        {
+          g_free(screen->priv->wm_name);
+          screen->priv->wm_name = g_strdup("wmx");
+        }
+      if (!strcmp(screen->priv->wm_name, "\xce\xbcwm") ||
+          !strcmp(screen->priv->wm_name, "\xc2\xb2wm"))
+        {
+          g_free(screen->priv->wm_name);
+          screen->priv->wm_name = g_strdup("uwm");
+        }
+    }
   else
-    screen->priv->wm_name = NULL;
+    {
+      Window noticeboard = None;
+      _wnck_get_window (screen->priv->xroot,
+                        _wnck_atom_get ("_WINDOWMAKER_NOTICEBOARD"),
+                        &noticeboard);
+      if (noticeboard != None)
+        screen->priv->wm_name = g_strdup("wmaker");
+    }
+
+  if (wm_window != None)
+    {
+      int pid = 0;
+
+      _wnck_get_cardinal (wm_window, _wnck_atom_get ("_NET_WM_PID"), &pid);
+
+      if (!pid)
+        _wnck_get_cardinal (screen->priv->xroot, _wnck_atom_get ("_NET_WM_PID"), &pid);
+
+      if (!pid && screen->priv->wm_name)
+        {
+            if (!strcasecmp(screen->priv->wm_name, "fluxbox"))
+              _wnck_get_cardinal (screen->priv->xroot, _wnck_atom_get ("_BLACKBOX_PID"), &pid);
+
+            if (!strcasecmp(screen->priv->wm_name, "openbox"))
+              _wnck_get_cardinal (screen->priv->xroot, _wnck_atom_get ("_OPENBOX_PID"), &pid);
+
+            if (!strcasecmp(screen->priv->wm_name, "i3"))
+              _wnck_get_cardinal (screen->priv->xroot, _wnck_atom_get ("I3_PID"), &pid);
+        }
+      screen->priv->wm_pid = pid;
+    }
 
   emit_wm_changed (screen);
 }
@@ -2524,6 +2602,25 @@ wnck_screen_get_window_manager_name (WnckScreen *screen)
   g_return_val_if_fail (WNCK_IS_SCREEN (screen), NULL);
 
   return screen->priv->wm_name;
+}
+
+/**
+ * wnck_screen_get_window_manager_pid:
+ * @screen: a #WnckScreen.
+ *
+ * Gets the pid of the window manager.
+ *
+ * Return value: the pid of the window manager, or %0 if the pid of the window
+ * manager cannot be determined.
+ *
+ * Since: 2.31
+ */
+pid_t
+wnck_screen_get_window_manager_pid (WnckScreen *screen)
+{
+  g_return_val_if_fail (WNCK_IS_SCREEN (screen), NULL);
+
+  return screen->priv->wm_pid;
 }
 
 /**

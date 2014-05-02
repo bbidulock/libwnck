@@ -240,6 +240,7 @@ int            wnck_screen_get_workspace_count      (WnckScreen *screen);
 void           wnck_screen_change_workspace_count   (WnckScreen *screen,
                                                      int         count);
 const char*    wnck_screen_get_window_manager_name  (WnckScreen *screen);
+pid_t          wnck_screen_get_window_manager_pid   (WnckScreen *screen);
 gboolean       wnck_screen_net_wm_supports          (WnckScreen *screen,
                                                      const char *atom);
 gulong         wnck_screen_get_background_pixmap    (WnckScreen *screen);
