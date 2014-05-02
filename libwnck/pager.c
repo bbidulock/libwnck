@@ -788,7 +788,8 @@ get_windows_for_workspace_in_bottom_to_top (WnckScreen    *screen,
   for (tmp = windows; tmp != NULL; tmp = tmp->next)
     {
       WnckWindow *win = WNCK_WINDOW (tmp->data);
-      if (wnck_pager_window_get_workspace (win, TRUE) == workspace_num)
+      if ((wnck_pager_window_get_workspace (win, TRUE) == workspace_num) ||
+          ((wnck_pager_window_get_workspace (win, TRUE) >= 0) && (wnck_window_is_pinned(win))))
 	result = g_list_prepend (result, win);
     }
 
