@@ -2315,6 +2315,9 @@ update_wm (WnckScreen *screen)
                                                        _wnck_atom_get ("_NET_WM_NAME"));
       if (!screen->priv->wm_name)
         screen->priv->wm_name = _wnck_get_text_property (wm_window,
+                                                         _wnck_atom_get ("_NET_WM_NAME"));
+      if (!screen->priv->wm_name)
+        screen->priv->wm_name = _wnck_get_text_property (wm_window,
                                                          _wnck_atom_get ("WM_NAME"));
       if (!screen->priv->wm_name)
         _wnck_get_wmclass (wm_window, NULL, &screen->priv->wm_name);
@@ -2323,6 +2326,9 @@ update_wm (WnckScreen *screen)
         {
           screen->priv->wm_name = _wnck_get_utf8_property (screen->priv->xroot,
                                                            _wnck_atom_get ("_NET_WM_NAME"));
+          if (!screen->priv->wm_name)
+            screen->priv->wm_name = _wnck_get_text_property (wm_window,
+                                                             _wnck_atom_get ("_NET_WM_NAME"));
           if (!screen->priv->wm_name)
             screen->priv->wm_name = _wnck_get_text_property (screen->priv->xroot,
                                                              _wnck_atom_get ("WM_NAME"));
