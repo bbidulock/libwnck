@@ -2349,7 +2349,7 @@ update_wm (WnckScreen *screen)
           screen->priv->wm_name = g_strdup("wmx");
         }
       if (!strcmp(screen->priv->wm_name, "\xce\xbcwm") ||
-          !strcmp(screen->priv->wm_name, "\xc2\xb2wm"))
+          !strcmp(screen->priv->wm_name, "\xc2\xb5wm"))
         {
           g_free(screen->priv->wm_name);
           screen->priv->wm_name = g_strdup("uwm");
