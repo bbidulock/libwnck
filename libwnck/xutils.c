@@ -367,7 +367,7 @@ _wnck_get_utf8_property (Window  xwindow,
       return NULL;
     }
 
-  if (!g_utf8_validate (val, nitems, NULL))
+  if (!g_utf8_validate (val, -1, NULL))
     {
       g_warning ("Property %s contained invalid UTF-8\n",
                  _wnck_atom_name (atom));
