@@ -1825,6 +1825,78 @@ wnck_window_unshade                 (WnckWindow *window)
 }
 
 /**
+ * wnck_window_float:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to float @window on a tiling window manager.
+ */
+void
+wnck_window_float                   (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      TRUE,
+                      _wnck_atom_get ("_NET_WM_STATE_FLOATING"),
+                      0);
+}
+
+/**
+ * wnck_window_unfloat:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to tile @window on a tiling window manager.
+ */
+void
+wnck_window_unfloat                 (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      FALSE,
+                      _wnck_atom_get ("_NET_WM_STATE_FLOATING"),
+                      0);
+}
+
+/**
+ * wnck_window_fill:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to fill available space with @window.
+ */
+void
+wnck_window_fill                    (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      TRUE,
+                      _wnck_atom_get ("_NET_WM_STATE_FILLED"),
+                      0);
+}
+
+/**
+ * wnck_window_unfill:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to restore @window fill state.
+ */
+void
+wnck_window_unfill                  (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      FALSE,
+                      _wnck_atom_get ("_NET_WM_STATE_FILLED"),
+                      0);
+}
+
+/**
  * wnck_window_make_above:
  * @window: a #WnckWindow.
  *

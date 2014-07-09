@@ -263,7 +263,7 @@ static GOptionEntry window_entries[] = {
           N_("Make the window float in tiling layouts"), NULL },
 	{ "unfloat", 0, 0, G_OPTION_ARG_NONE, &set_unfloating,
           N_("Make the window not float in tiling layouts"), NULL },
-	{ "unfloat", 0, 0, G_OPTION_ARG_NONE, &set_undecorated,
+	{ "undecorate", 0, 0, G_OPTION_ARG_NONE, &set_undecorated,
           N_("Make the window be undecorated."), NULL },
 	{ "decorate", 0, 0, G_OPTION_ARG_NONE, &set_unundecorated,
           N_("Make the window normally decorated."), NULL },
@@ -1649,6 +1649,10 @@ print_window (WnckWindow *window)
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_RESIZE, _("resize"));
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_SHADE, _("shade"));
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNSHADE, _("unshade"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_FLOAT, _("float"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNFLOAT, _("unfloat"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_FILL, _("fill"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNFILL, _("unfill"));
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_STICK, _("stick"));
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNSTICK, _("unstick"));
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_MAXIMIZE_HORIZONTALLY,

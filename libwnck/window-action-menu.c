@@ -67,6 +67,8 @@ typedef enum
   MAXIMIZE_H,
   MAXIMIZE_V,
   SHADE,
+  FLOAT,
+  FILL,
   ABOVE,
   BELOW,
   UNDECORATE,
@@ -90,6 +92,8 @@ struct _WnckActionMenuPrivate
   GtkWidget *maximize_h_item;
   GtkWidget *maximize_v_item;
   GtkWidget *shade_item;
+  GtkWidget *float_item;
+  GtkWidget *fill_item;
   GtkWidget *above_item;
   GtkWidget *below_item;
   GtkWidget *undec_item;
@@ -224,6 +228,16 @@ item_activated_callback (GtkWidget *menu_item,
       else
         wnck_window_shade (window);
       break;
+    case FLOAT:
+      if (wnck_window_is_floating (window))
+        wnck_window_unfloat (window);
+      else
+        wnck_window_float (window);
+    case FILL:
+      if (wnck_window_is_filled (window))
+        wnck_window_unfill (window);
+      else
+        wnck_window_fill (window);
     case ABOVE:
       if (wnck_window_is_above (window))
         wnck_window_unmake_above (window);
@@ -531,7 +545,34 @@ update_menu_state (WnckActionMenu *menu)
       gtk_widget_set_sensitive (priv->shade_item,
                                 (actions & WNCK_WINDOW_ACTION_SHADE) != 0);
     }
-
+  if (wnck_window_is_floating (priv->window))
+    {
+      set_item_text (priv->float_item, _("Un_float"));
+      set_item_stock (priv->float_item, WNCK_STOCK_UNARRANGED);
+      gtk_widget_set_sensitive (priv->float_item,
+                                (actions & WNCK_WINDOW_ACTION_UNFLOAT) != 0);
+    }
+  else
+    {
+      set_item_text (priv->float_item, _("_Float"));
+      set_item_stock (priv->float_item, WNCK_STOCK_ARRANGED);
+      gtk_widget_set_sensitive (priv->float_item,
+                                (actions & WNCK_WINDOW_ACTION_FLOAT) != 0);
+    }
+  if (wnck_window_is_filled (priv->window))
+    {
+      set_item_text (priv->fill_item, _("Unf_ill"));
+      set_item_stock (priv->fill_item, WNCK_STOCK_UNARRANGED);
+      gtk_widget_set_sensitive (priv->fill_item,
+                                (actions & WNCK_WINDOW_ACTION_UNFILL) != 0);
+    }
+  else
+    {
+      set_item_text (priv->fill_item, _("F_ill"));
+      set_item_stock (priv->fill_item, WNCK_STOCK_ARRANGED);
+      gtk_widget_set_sensitive (priv->fill_item,
+                                (actions & WNCK_WINDOW_ACTION_FILL) != 0);
+    }
   if (wnck_window_is_above (priv->window))
     {
       set_item_text (priv->above_item, _("Always On _Top"));
@@ -1168,6 +1209,16 @@ wnck_action_menu_constructor (GType                  type,
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->shade_item);
+
+  priv->float_item = make_menu_item (FLOAT);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->float_item);
+
+  priv->fill_item = make_menu_item (FILL);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->fill_item);
 
   priv->move_item = make_menu_item (MOVE);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
