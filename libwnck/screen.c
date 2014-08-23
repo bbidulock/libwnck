@@ -101,6 +101,7 @@ struct _WnckScreenPrivate
 
   char *wm_name;
   pid_t wm_pid;
+  WnckTheme *current_theme;
   
   guint update_handler;  
 
