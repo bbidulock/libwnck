@@ -233,11 +233,13 @@ item_activated_callback (GtkWidget *menu_item,
         wnck_window_unfloat (window);
       else
         wnck_window_float (window);
+      break;
     case FILL:
       if (wnck_window_is_filled (window))
         wnck_window_unfill (window);
       else
         wnck_window_fill (window);
+      break;
     case ABOVE:
       if (wnck_window_is_above (window))
         wnck_window_unmake_above (window);
