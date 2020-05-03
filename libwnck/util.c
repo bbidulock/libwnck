@@ -674,9 +674,9 @@ _wnck_get_client_type (void)
 
 /**
  * _make_gtk_label_bold:
+ * @label: The label.
  *
  * Switches the font of label to a bold equivalent.
- * @label: The label.
  **/
 void
 _make_gtk_label_bold (GtkLabel *label)
@@ -804,7 +804,11 @@ _wnck_stock_icons_init (void)
     { WNCK_STOCK_UNMAXIMIZE,   stock_unmaximize_data    },
     { WNCK_STOCK_UNMINIMIZE,   stock_unminimize_data    },
     { WNCK_STOCK_UNSHADE,      stock_unshade_data       },
-    { WNCK_STOCK_UNSTICK,      stock_unstick_data       }
+    { WNCK_STOCK_UNSTICK,      stock_unstick_data       },
+    { WNCK_STOCK_MAXIMUS_L,    stock_maximus_l_data     },
+    { WNCK_STOCK_MAXIMUS_R,    stock_maximus_r_data     },
+    { WNCK_STOCK_UNMAXIMUS_L,  stock_unmaximus_l_data   },
+    { WNCK_STOCK_UNMAXIMUS_R,  stock_unmaximus_r_data   }
   };
 
   if (done)

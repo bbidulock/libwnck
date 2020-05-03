@@ -63,6 +63,8 @@ G_BEGIN_DECLS
  * @WNCK_WINDOW_STATE_FIXED: the window is fixed in position.
  * @WNCK_WINDOW_STATE_FLOATING: the window is floating in a tiled layout.
  * @WNCK_WINDOW_STATE_UNDECORATED: the window is undecorated.
+ * @WNCK_WINDOW_STATE_MAXIMUS_LEFT: the window is filling left half of work area.
+ * @WNCK_WINDOW_STATE_MAXIMUS_RIGHT: the window is filling right half of work area.
  *
  * Type used as a bitmask to describe the state of a #WnckWindow.
  */
@@ -86,7 +88,9 @@ typedef enum
   WNCK_WINDOW_STATE_FIXED                  = 1 << 15,
   WNCK_WINDOW_STATE_FILLED                 = 1 << 16,
   WNCK_WINDOW_STATE_FLOATING               = 1 << 17,
-  WNCK_WINDOW_STATE_UNDECORATED            = 1 << 18
+  WNCK_WINDOW_STATE_UNDECORATED            = 1 << 18,
+  WNCK_WINDOW_STATE_MAXIMUS_LEFT           = 1 << 19,
+  WNCK_WINDOW_STATE_MAXIMUS_RIGHT          = 1 << 20
 } WnckWindowState;
 
 /**
@@ -120,6 +124,10 @@ typedef enum
  * @WNCK_WINDOW_ACTION_FLOAT: the window may be made to float in tiled layouts.
  * @WNCK_WINDOW_ACTION_UNFLOAT: the window may be made to tile in tiled layouts.
  * @WNCK_WINDOW_ACTION_UNDECORATE: the window may be made to have no decorations.
+ * @WNCK_WINDOW_ACTION_MAXIMUS_LEFT: the window may be made to fill left half of available area.
+ * @WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT: the window may be restored from left half of available area.
+ * @WNCK_WINDOW_ACTION_MAXIMUS_RIGHT: the window may be made to fill right half of available area.
+ * @WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT: the window may be restorted from right half of available area.
  *
  * Type used as a bitmask to describe the actions that can be done for a
  * #WnckWindow.
@@ -149,7 +157,11 @@ typedef enum
   WNCK_WINDOW_ACTION_UNFILL                  = 1 << 20,
   WNCK_WINDOW_ACTION_FLOAT                   = 1 << 21,
   WNCK_WINDOW_ACTION_UNFLOAT                 = 1 << 22,
-  WNCK_WINDOW_ACTION_UNDECORATE              = 1 << 23
+  WNCK_WINDOW_ACTION_UNDECORATE              = 1 << 23,
+  WNCK_WINDOW_ACTION_MAXIMUS_LEFT            = 1 << 24,
+  WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT          = 1 << 25,
+  WNCK_WINDOW_ACTION_MAXIMUS_RIGHT           = 1 << 26,
+  WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT         = 1 << 27
 } WnckWindowActions;
 
 /**
@@ -364,6 +376,8 @@ gboolean wnck_window_is_fixed                  (WnckWindow *window);
 gboolean wnck_window_is_filled                 (WnckWindow *window);
 gboolean wnck_window_is_floating               (WnckWindow *window);
 gboolean wnck_window_is_undecorated            (WnckWindow *window);
+gboolean wnck_window_is_maximus_left           (WnckWindow *window);
+gboolean wnck_window_is_maximus_right          (WnckWindow *window);
 
 void wnck_window_set_fixed                     (WnckWindow *window,
                                                 gboolean fixed);
@@ -372,6 +386,10 @@ void wnck_window_set_filled                    (WnckWindow *window,
 void wnck_window_set_floating                  (WnckWindow *window,
                                                 gboolean floats);
 void wnck_window_set_undecorated               (WnckWindow *window,
+                                                gboolean nodecor);
+void wnck_window_set_maximus_left              (WnckWindow *window,
+                                                gboolean nodecor);
+void wnck_window_set_maximus_right             (WnckWindow *window,
                                                 gboolean nodecor);
 
 void wnck_window_set_skip_pager    (WnckWindow *window,
@@ -398,6 +416,10 @@ void wnck_window_float                   (WnckWindow *window);
 void wnck_window_unfloat                 (WnckWindow *window);
 void wnck_window_fill                    (WnckWindow *window);
 void wnck_window_unfill                  (WnckWindow *window);
+void wnck_window_maximus_left            (WnckWindow *window);
+void wnck_window_unmaximus_left          (WnckWindow *window);
+void wnck_window_maximus_right           (WnckWindow *window);
+void wnck_window_unmaximus_right         (WnckWindow *window);
 void wnck_window_make_above              (WnckWindow *window);
 void wnck_window_unmake_above            (WnckWindow *window);
 void wnck_window_make_below              (WnckWindow *window);

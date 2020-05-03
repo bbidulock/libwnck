@@ -69,6 +69,8 @@ typedef enum
   SHADE,
   FLOAT,
   FILL,
+  MAXIMUS_L,
+  MAXIMUS_R,
   ABOVE,
   BELOW,
   UNDECORATE,
@@ -94,6 +96,8 @@ struct _WnckActionMenuPrivate
   GtkWidget *shade_item;
   GtkWidget *float_item;
   GtkWidget *fill_item;
+  GtkWidget *maximus_l_item;
+  GtkWidget *maximus_r_item;
   GtkWidget *above_item;
   GtkWidget *below_item;
   GtkWidget *undec_item;
@@ -239,6 +243,18 @@ item_activated_callback (GtkWidget *menu_item,
         wnck_window_unfill (window);
       else
         wnck_window_fill (window);
+      break;
+    case MAXIMUS_L:
+      if (wnck_window_is_maximus_left (window))
+        wnck_window_unmaximus_left (window);
+      else
+        wnck_window_maximus_left (window);
+      break;
+    case MAXIMUS_R:
+      if (wnck_window_is_maximus_right (window))
+        wnck_window_unmaximus_right (window);
+      else
+        wnck_window_maximus_right (window);
       break;
     case ABOVE:
       if (wnck_window_is_above (window))
@@ -574,6 +590,34 @@ update_menu_state (WnckActionMenu *menu)
       set_item_stock (priv->fill_item, WNCK_STOCK_ARRANGED);
       gtk_widget_set_sensitive (priv->fill_item,
                                 (actions & WNCK_WINDOW_ACTION_FILL) != 0);
+    }
+  if (wnck_window_is_maximus_left (priv->window))
+    {
+      set_item_text (priv->maximus_l_item, _("_Unmaximus Left"));
+      set_item_stock (priv->maximus_l_item, WNCK_STOCK_UNMAXIMUS_L);
+      gtk_widget_set_sensitive (priv->maximus_l_item,
+                                (actions & WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT) != 0);
+    }
+  else
+    {
+      set_item_text (priv->maximus_l_item, _("Maximus _Left"));
+      set_item_stock (priv->maximus_l_item, WNCK_STOCK_MAXIMUS_L);
+      gtk_widget_set_sensitive (priv->maximus_l_item,
+                                (actions & WNCK_WINDOW_ACTION_MAXIMUS_LEFT) != 0);
+    }
+  if (wnck_window_is_maximus_right (priv->window))
+    {
+      set_item_text (priv->maximus_r_item, _("_Unmaximus Right"));
+      set_item_stock (priv->maximus_r_item, WNCK_STOCK_UNMAXIMUS_R);
+      gtk_widget_set_sensitive (priv->maximus_r_item,
+                                (actions & WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT) != 0);
+    }
+  else
+    {
+      set_item_text (priv->maximus_r_item, _("Maximus _Right"));
+      set_item_stock (priv->maximus_r_item, WNCK_STOCK_MAXIMUS_R);
+      gtk_widget_set_sensitive (priv->maximus_r_item,
+                                (actions & WNCK_WINDOW_ACTION_MAXIMUS_RIGHT) != 0);
     }
   if (wnck_window_is_above (priv->window))
     {
@@ -1221,6 +1265,16 @@ wnck_action_menu_constructor (GType                  type,
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->fill_item);
+
+  priv->maximus_l_item = make_menu_item (MAXIMUS_L);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->maximus_l_item);
+
+  priv->maximus_r_item = make_menu_item (MAXIMUS_R);
+
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
+                         priv->maximus_l_item);
 
   priv->move_item = make_menu_item (MOVE);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),

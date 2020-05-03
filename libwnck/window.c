@@ -74,7 +74,9 @@ static GHashTable *window_hash = NULL;
     ((window)->priv->is_fixed            << 15)|        \
     ((window)->priv->is_filled           << 16)|        \
     ((window)->priv->is_floating         << 17)|        \
-    ((window)->priv->is_undecorated      << 18))
+    ((window)->priv->is_undecorated      << 18)|        \
+    ((window)->priv->is_maximus_left     << 19)|        \
+    ((window)->priv->is_maximus_right    << 20))
 
 struct _WnckWindowPrivate
 {
@@ -141,8 +143,11 @@ struct _WnckWindowPrivate
   guint is_modal : 1;
   guint is_fixed : 1;
   guint is_filled : 1;
+  guint is_maximus_left : 1;
+  guint is_maximus_right : 1;
   guint is_floating : 1;
   guint is_undecorated : 1;
+
 
   time_t needs_attention_time;
 
@@ -1412,6 +1417,98 @@ wnck_window_set_filled (WnckWindow *window,
 }
 
 /**
+ * wnck_window_is_maximus_left:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is filling the left half of work area.
+ * This state may change any time a #WnckWindow::state-changed signal
+ * gets emitted.
+ *
+ * Return value: %TRUE if @window is filling the left half of work
+ * area, %FALSE otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_maximus_left           (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_maximus_left;
+}
+
+/**
+ * wnck_window_set_maximus_left:
+ * @window: a #WnckWindow.
+ * @maximus: whether @window should fill the left half of work area.
+ *
+ * Asks the window manager to make @window fill the left half of work
+ * area.
+ **/
+void
+wnck_window_set_maximus_left (WnckWindow *window,
+                        gboolean maximus)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      !maximus,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_RIGHT"),
+                      0);
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      maximus,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_LEFT"),
+                      0);
+}
+
+/**
+ * wnck_window_is_maximus_right:
+ * @window: a #WnckWindow.
+ *
+ * Gets whether @window is filling the right half of work area.  This
+ * state may change any time a #WnckWindow::state-changed signal gets
+ * emitted.
+ *
+ * Return value: %TRUE if @window is filling the right half of work
+ * area, %FALSE otherwise.
+ *
+ * Since: 2.31
+ **/
+gboolean
+wnck_window_is_maximus_right          (WnckWindow *window)
+{
+  g_return_val_if_fail (WNCK_IS_WINDOW (window), FALSE);
+
+  return window->priv->is_maximus_right;
+}
+
+/**
+ * wnck_window_set_maximus_right:
+ * @window: a #WnckWindow.
+ * @maximus: whether @window should fill the right half of work area.
+ *
+ * Asks the window manager to make @window fill the right half of
+ * work area.
+ **/
+void
+wnck_window_set_maximus_right (WnckWindow *window,
+                        gboolean maximus)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      !maximus,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_LEFT"),
+                      0);
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+		      window->priv->xwindow,
+                      maximus,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_RIGHT"),
+                      0);
+}
+
+/**
  * wnck_window_is_floating:
  * @window: a #WnckWindow.
  *
@@ -1893,6 +1990,88 @@ wnck_window_unfill                  (WnckWindow *window)
                       window->priv->xwindow,
                       FALSE,
                       _wnck_atom_get ("_NET_WM_STATE_FILLED"),
+                      0);
+}
+
+/**
+ * wnck_window_maximus_left:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to fill left half with @window.
+ */
+void
+wnck_window_maximus_left            (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      FALSE,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_RIGHT"),
+                      0);
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      TRUE,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_LEFT"),
+                      0);
+}
+
+/**
+ * wnck_window_unmaximus_left:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to restore @window fill left half state.
+ */
+void
+wnck_window_unmaximus_left          (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      FALSE,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_LEFT"),
+                      0);
+}
+
+/**
+ * wnck_window_maximus_right:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to fill right half with @window.
+ */
+void
+wnck_window_maximus_right           (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      FALSE,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_LEFT"),
+                      0);
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      TRUE,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_RIGHT"),
+                      0);
+}
+
+/**
+ * wnck_window_unmaximus_right:
+ * @window: a #WnckWindow.
+ *
+ * Asks the window manager to restore @window fill right half state.
+ */
+void
+wnck_window_unmaximus_right         (WnckWindow *window)
+{
+  g_return_if_fail (WNCK_IS_WINDOW (window));
+
+  _wnck_change_state (WNCK_SCREEN_XSCREEN (window->priv->screen),
+                      window->priv->xwindow,
+                      FALSE,
+                      _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_RIGHT"),
                       0);
 }
 
@@ -2944,6 +3123,8 @@ update_state (WnckWindow *window)
       window->priv->is_modal = FALSE;
       window->priv->is_fixed = FALSE;
       window->priv->is_filled = FALSE;
+      window->priv->is_maximus_left = FALSE;
+      window->priv->is_maximus_right = FALSE;
       window->priv->is_floating = FALSE;
       window->priv->is_undecorated = FALSE;
       
@@ -2986,6 +3167,10 @@ update_state (WnckWindow *window)
             window->priv->is_fixed = TRUE;
           else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FILLED"))
             window->priv->is_filled = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_LEFT"))
+            window->priv->is_maximus_left = TRUE;
+          else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_MAXIMUS_RIGHT"))
+            window->priv->is_maximus_right = TRUE;
           else if (atoms[i] == _wnck_atom_get ("_NET_WM_STATE_FLOATING"))
             window->priv->is_floating = TRUE;
           else if (atoms[i] == _wnck_atom_get ("_OB_WM_STATE_UNDECORATED"))

@@ -68,6 +68,10 @@ G_BEGIN_DECLS
 #define WNCK_STOCK_UNMINIMIZE    "wnck-stock-unminimize"
 #define WNCK_STOCK_UNSHADE       "wnck-stock-unshade"
 #define WNCK_STOCK_UNSTICK       "wnck-stock-unstick"
+#define WNCK_STOCK_MAXIMUS_L     "wnck-stock-maximus-l"
+#define WNCK_STOCK_MAXIMUS_R     "wnck-stock-maximus-r"
+#define WNCK_STOCK_UNMAXIMUS_L   "wnck-stock-unmaximus-l"
+#define WNCK_STOCK_UNMAXIMUS_R   "wnck-stock-unmaximus-r"
 
 #define WNCK_APP_WINDOW_EVENT_MASK (PropertyChangeMask | StructureNotifyMask)
 
