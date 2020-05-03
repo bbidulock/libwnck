@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_delete[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray12",
+". c gray39",
+"X c gray50",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo",
+"ooX .ooooooX .oo",
+"oooX .ooooX .ooo",
+"ooooX .ooX .oooo",
+"oooooX .X .ooooo",
+"ooooooX  .oooooo",
+"ooooooX  .oooooo",
+"oooooX .X .ooooo",
+"ooooX .ooX .oooo",
+"oooX .ooooX .ooo",
+"ooX .ooooooX .oo",
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

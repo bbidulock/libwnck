@@ -1,0 +1,25 @@
+/* XPM */
+static char *stock_stick[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c gray3",
+". c gray12",
+"X c None",
+/* pixels */
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX",
+"X..........XXXXX",
+"X..........X  .X",
+"X..........X ..X",
+"X.XXXXXXXX. .XXX",
+"X.XXXXXXXX .XXXX",
+"X.XXXXXXX .XXXXX",
+"X.XXXXXX ..XXXXX",
+"X.XXXXX .X.XXXXX",
+"X.XXXX .XX.XXXXX",
+"X.XXX .XXX.XXXXX",
+"X.XXXXXXXX.XXXXX",
+"X..........XXXXX",
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX"
+};

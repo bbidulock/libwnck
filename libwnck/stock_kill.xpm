@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_kill[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c #1F1F1F",
+". c gray39",
+"X c gray50",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo",
+"ooX oX oX oX ooo",
+"oooX  oooX  oooo",
+"oooX  oooX  oooo",
+"ooX oX oX oX ooo",
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooX    .ooooo",
+"oooX  .ooX  .ooo",
+"ooX .ooooooX .oo",
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

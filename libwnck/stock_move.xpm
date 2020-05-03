@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_move[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c #1F1F1F",
+". c gray39",
+"X c gray50",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooX ooooooo",
+"ooooooX   oooooo",
+"oooooX     ooooo",
+"oooooooX ooooooo",
+"ooo oooX ooo ooo",
+"oo  oooX ooo  oo",
+"o              o",
+"oX  XXXX XXX  Xo",
+"ooX oooX ooo .oo",
+"oooXoooX ooo.ooo",
+"oooooooX ooooooo",
+"oooooX     ooooo",
+"ooooooX   oooooo",
+"oooooooX ooooooo",
+"oooooooooooooooo"
+};

@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_snap[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray3",
+". c #1F1F1F",
+"X c #3C3C3C",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oo......oooooooo",
+"oo......oooooooo",
+"oo......oooooooo",
+"oo.ooooX .....oo",
+"oo.oo oX .....oo",
+"oo.ooo X .....oo",
+"oo.oooo  oooo.oo",
+"oo.ooooX  ooo.oo",
+"oo.....X o oo.oo",
+"oooooooo.oooo.oo",
+"oooooooo.oooo.oo",
+"oooooooo......oo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

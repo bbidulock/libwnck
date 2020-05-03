@@ -1,0 +1,25 @@
+/* XPM */
+static char *stock_unmaximize_b[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c gray12",
+". c gray50",
+"X c None",
+/* pixels */
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX",
+"XX            XX",
+"XX            XX",
+"XX            XX",
+"XX XXXXXXXXXX XX",
+"XX XXXXXX X . XX",
+"XX XXXXXX  .X XX",
+"XX XXXXXX   X XX",
+"XX       XXXX XX",
+"XX XXXXX XXXX XX",
+"XX XXXXX XXXX XX",
+"XX XXXXX XXXX XX",
+"XX            XX",
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX"
+};

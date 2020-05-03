@@ -1,0 +1,25 @@
+/* XPM */
+static char *stock_sendto_l[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c gray12",
+". c gray50",
+"X c None",
+/* pixels */
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX",
+"XXXXXX        XX",
+"XXXXXX        XX",
+"XXXXXX        XX",
+"XXXXXX XXXXXX XX",
+"XXXXXX XXXXXX XX",
+"XXXXXX XXXXXX XX",
+"XXXXXX        XX",
+"XXXX .XXXXXXXXXX",
+"XXX .XXXXXXXXXXX",
+"XX            XX",
+"XXX .XXXXXXXXXXX",
+"XXXX .XXXXXXXXXX",
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX"
+};

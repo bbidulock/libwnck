@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_titlebar[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray3",
+". c gray12",
+"X c #948E8D",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"ooXXXXXXXXXXXXoo",
+"ooX          Xoo",
+"ooX..........Xoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXooooooooooXoo",
+"ooXXXXXXXXXXXXoo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

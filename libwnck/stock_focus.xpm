@@ -1,0 +1,25 @@
+/* XPM */
+static char *stock_focus[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c gray3",
+". c #3C3C3C",
+"X c None",
+/* pixels */
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX",
+"XXXXX         XX",
+"XXXXX         XX",
+"XXXXX         XX",
+"XXXXX XXXXXXX XX",
+"XX... XXXXXXX XX",
+"XX.   XXXXXXX XX",
+"XX... XXXXXXX XX",
+"XX.XX XXXXXXX XX",
+"XX.XX         XX",
+"XX.XXXXXXX.XXXXX",
+"XX.XXXXXXX.XXXXX",
+"XX.........XXXXX",
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX"
+};

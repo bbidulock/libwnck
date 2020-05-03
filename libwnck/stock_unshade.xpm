@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_unshade[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray12",
+". c gray39",
+"X c gray50",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oo            oo",
+"oo            oo",
+"oo            oo",
+"ooooooo  ooooooo",
+"ooooooo  ooooooo",
+"ooooooo  ooooooo",
+"ooooooo  ooooooo",
+"oooX oo  oo .ooo",
+"ooooX o  o .oooo",
+"oooooX    .ooooo",
+"ooooooX  .oooooo",
+"oooooooX.ooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

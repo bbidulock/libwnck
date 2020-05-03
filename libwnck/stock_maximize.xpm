@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_maximize[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray3",
+". c gray12",
+"X c #948E8D",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oo............oo",
+"oo.          .oo",
+"oo............oo",
+"oo.oXXXXXXXXo.oo",
+"oo.oXXXXXXXXo.oo",
+"oo.oXXXXXXXXo.oo",
+"oo.oXooooooXo.oo",
+"oo.oXooooooXo.oo",
+"oo.oXooooooXo.oo",
+"oo.oXXXXXXXXo.oo",
+"oo.oooooooooo.oo",
+"oo............oo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

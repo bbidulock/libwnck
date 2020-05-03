@@ -1,0 +1,25 @@
+/* XPM */
+static char *stock_resize[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c gray12",
+". c gray50",
+"X c None",
+/* pixels */
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX",
+"XX . X X X.   XX",
+"XX.XXXXXXXX.  XX",
+"XX XXXXXXX. X XX",
+"XXXXXXXXX. XXXXX",
+"XX        XXX XX",
+"XX        XXXXXX",
+"XX        XXX XX",
+"XX XXXXXX XXXXXX",
+"XX XXXXXX XXX XX",
+"XX XXXXXX XXXXXX",
+"XX XXXXXX XXX.XX",
+"XX        X . XX",
+"XXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXX"
+};

@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_command[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray12",
+". c gray39",
+"X c gray50",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oooooo   ooooooo",
+"oooooo   ooooooo",
+"oooooo   ooooooo",
+"oooooo. .ooooooo",
+"oooooo. .ooooooo",
+"ooooooX Xooooooo",
+"ooooooX Xooooooo",
+"ooooooo oooooooo",
+"ooooooo oooooooo",
+"oooooooooooooooo",
+"ooooooX .ooooooo",
+"ooooooX .ooooooo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};

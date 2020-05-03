@@ -1,0 +1,26 @@
+/* XPM */
+static char *stock_unminimize[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray12",
+". c gray39",
+"X c gray50",
+"o c None",
+/* pixels */
+"oooooooooooooooo",
+"oooooooooooooooo",
+"oo            oo",
+"oo            oo",
+"oo            oo",
+"oo ooooX.oooo oo",
+"oo oooX  .ooo oo",
+"oo ooX    .oo oo",
+"oo oX o  o .o oo",
+"oo X oo  oo . oo",
+"oo oooo  oooo oo",
+"oo oooo  oooo oo",
+"oo oooo  oooo oo",
+"oo            oo",
+"oooooooooooooooo",
+"oooooooooooooooo"
+};
