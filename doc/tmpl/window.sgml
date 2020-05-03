@@ -305,6 +305,8 @@ WnckWindow
 @WNCK_WINDOW_STATE_FILLED: 
 @WNCK_WINDOW_STATE_FIXED: 
 @WNCK_WINDOW_STATE_FLOATING: 
+@WNCK_WINDOW_STATE_MAXIMUS_LEFT: 
+@WNCK_WINDOW_STATE_MAXIMUS_RIGHT: 
 
 <!-- ##### FUNCTION wnck_window_get_state ##### -->
 <para>
@@ -459,6 +461,24 @@ WnckWindow
 @Returns: 
 
 
+<!-- ##### FUNCTION wnck_window_is_maximus_left ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION wnck_window_is_maximus_right ##### -->
+<para>
+
+</para>
+
+@window: 
+@Returns: 
+
+
 <!-- ##### FUNCTION wnck_window_is_floating ##### -->
 <para>
 
@@ -514,6 +534,10 @@ WnckWindow
 @WNCK_WINDOW_ACTION_UNFILL: 
 @WNCK_WINDOW_ACTION_FLOAT: 
 @WNCK_WINDOW_ACTION_UNFLOAT: 
+@WNCK_WINDOW_ACTION_MAXIMUS_LEFT: 
+@WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT: 
+@WNCK_WINDOW_ACTION_MAXIMUS_RIGHT: 
+@WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT: 
 
 <!-- ##### FUNCTION wnck_window_get_actions ##### -->
 <para>
@@ -684,6 +708,24 @@ WnckWindow
 
 @window: 
 @fill: 
+
+
+<!-- ##### FUNCTION wnck_window_set_maximus_left ##### -->
+<para>
+
+</para>
+
+@window: 
+@maximus: 
+
+
+<!-- ##### FUNCTION wnck_window_set_maximus_right ##### -->
+<para>
+
+</para>
+
+@window: 
+@maximus: 
 
 
 <!-- ##### FUNCTION wnck_window_set_floating ##### -->
