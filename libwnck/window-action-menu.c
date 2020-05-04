@@ -1184,6 +1184,10 @@ wnck_action_menu_init (WnckActionMenu *menu)
   menu->priv->maximize_h_item = NULL;
   menu->priv->maximize_v_item = NULL;
   menu->priv->shade_item = NULL;
+  menu->priv->float_item = NULL;
+  menu->priv->fill_item = NULL;
+  menu->priv->maximize_l_item = NULL;
+  menu->priv->maximize_r_item = NULL;
   menu->priv->above_item = NULL;
   menu->priv->below_item = NULL;
   menu->priv->undec_item = NULL;
