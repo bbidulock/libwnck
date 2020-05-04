@@ -3345,24 +3345,24 @@ update_actions (WnckWindow *window)
         window->priv->actions |= WNCK_WINDOW_ACTION_RESIZE;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_SHADE"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_SHADE |
-                                  WNCK_WINDOW_ACTION_UNSHADE);
+        window->priv->actions |= WNCK_WINDOW_ACTION_SHADE |
+                                 WNCK_WINDOW_ACTION_UNSHADE;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_STICK"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_STICK |
-                                  WNCK_WINDOW_ACTION_UNSTICK);
+        window->priv->actions |= WNCK_WINDOW_ACTION_STICK |
+                                 WNCK_WINDOW_ACTION_UNSTICK;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MINIMIZE"))
-	window->priv->actions |= (WNCK_WINDOW_ACTION_MINIMIZE |
-	                          WNCK_WINDOW_ACTION_UNMINIMIZE);
+	window->priv->actions |= WNCK_WINDOW_ACTION_MINIMIZE   |
+	                         WNCK_WINDOW_ACTION_UNMINIMIZE;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MAXIMIZE_HORZ"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_MAXIMIZE_HORIZONTALLY |
-                                  WNCK_WINDOW_ACTION_UNMAXIMIZE_HORIZONTALLY);
+        window->priv->actions |= WNCK_WINDOW_ACTION_MAXIMIZE_HORIZONTALLY |
+                                 WNCK_WINDOW_ACTION_UNMAXIMIZE_HORIZONTALLY;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MAXIMIZE_VERT"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_MAXIMIZE_VERTICALLY |
-                                  WNCK_WINDOW_ACTION_UNMAXIMIZE_VERTICALLY);
+        window->priv->actions |= WNCK_WINDOW_ACTION_MAXIMIZE_VERTICALLY |
+                                 WNCK_WINDOW_ACTION_UNMAXIMIZE_VERTICALLY;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_CHANGE_DESKTOP"))
         window->priv->actions |= WNCK_WINDOW_ACTION_CHANGE_WORKSPACE;
@@ -3380,24 +3380,24 @@ update_actions (WnckWindow *window)
         window->priv->actions |= WNCK_WINDOW_ACTION_BELOW;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FILL"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_FILL |
-                                  WNCK_WINDOW_ACTION_UNFILL);
+        window->priv->actions |= WNCK_WINDOW_ACTION_FILL |
+                                 WNCK_WINDOW_ACTION_UNFILL;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MAXIMUS_LEFT"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_MAXIMIZE_LEFT |
-                                  WNCK_WINDOW_ACTION_UNMAXIMIZE_LEFT);
+        window->priv->actions |= WNCK_WINDOW_ACTION_MAXIMIZE_LEFT |
+                                 WNCK_WINDOW_ACTION_UNMAXIMIZE_LEFT;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MAXIMUS_RIGHT"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_MAXIMIZE_RIGHT |
-                                  WNCK_WINDOW_ACTION_UNMAXIMIZE_RIGHT);
+        window->priv->actions |= WNCK_WINDOW_ACTION_MAXIMIZE_RIGHT |
+                                 WNCK_WINDOW_ACTION_UNMAXIMIZE_RIGHT;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FLOAT"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_FLOAT |
-                                  WNCK_WINDOW_ACTION_UNFLOAT);
+        window->priv->actions |= WNCK_WINDOW_ACTION_FLOAT |
+                                 WNCK_WINDOW_ACTION_UNFLOAT;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_SKIP_ARRANGE"))
-        window->priv->actions |= (WNCK_WINDOW_ACTION_FLOAT |
-                                  WNCK_WINDOW_ACTION_UNFLOAT);
+        window->priv->actions |= WNCK_WINDOW_ACTION_FLOAT |
+                                 WNCK_WINDOW_ACTION_UNFLOAT;
 
       else if (atoms[i] == _wnck_atom_get ("_OB_WM_ACTION_UNDECORATE"))
         window->priv->actions |= WNCK_WINDOW_ACTION_UNDECORATE;
@@ -3419,8 +3419,8 @@ update_actions (WnckWindow *window)
   if ((window->priv->actions & WNCK_WINDOW_ACTION_MAXIMIZE_HORIZONTALLY) &&
       (window->priv->actions & WNCK_WINDOW_ACTION_MAXIMIZE_VERTICALLY))
     window->priv->actions |=
-        (WNCK_WINDOW_ACTION_MAXIMIZE |
-         WNCK_WINDOW_ACTION_UNMAXIMIZE);
+        WNCK_WINDOW_ACTION_MAXIMIZE   |
+        WNCK_WINDOW_ACTION_UNMAXIMIZE;
 }
 
 static void
