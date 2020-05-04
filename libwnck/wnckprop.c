@@ -118,10 +118,10 @@ gboolean set_fixed = FALSE;
 gboolean set_unfixed = FALSE;
 gboolean set_filled = FALSE;
 gboolean set_unfilled = FALSE;
-gboolean set_maximus_left = FALSE;
-gboolean set_unmaximus_left = FALSE;
-gboolean set_maximus_right = FALSE;
-gboolean set_unmaximus_right = FALSE;
+gboolean set_maximize_left = FALSE;
+gboolean set_unmaximize_left = FALSE;
+gboolean set_maximize_right = FALSE;
+gboolean set_unmaximize_right = FALSE;
 gboolean set_floating = FALSE;
 gboolean set_unfloating = FALSE;
 gboolean set_undecorated = FALSE;
@@ -263,13 +263,13 @@ static GOptionEntry window_entries[] = {
           N_("Make the window fill available space"), NULL },
 	{ "unfill", 0, 0, G_OPTION_ARG_NONE, &set_unfilled,
           N_("Make the window not fill available space"), NULL },
-        { "maximus-left", 0, 0, G_OPTION_ARG_NONE, &set_maximus_left,
+        { "maximize-left", 0, 0, G_OPTION_ARG_NONE, &set_maximize_left,
           N_("Make the window fill the left half of the work area"), NULL },
-        { "unmaximus-left", 0, 0, G_OPTION_ARG_NONE, &set_unmaximus_left,
+        { "unmaximize-left", 0, 0, G_OPTION_ARG_NONE, &set_unmaximize_left,
           N_("Make the window not fill the left half of the work area"), NULL },
-        { "maximus-right", 0, 0, G_OPTION_ARG_NONE, &set_maximus_right,
+        { "maximize-right", 0, 0, G_OPTION_ARG_NONE, &set_maximize_right,
           N_("Make the window fill the right half of the work area"), NULL },
-        { "unmaximus-right", 0, 0, G_OPTION_ARG_NONE, &set_unmaximus_right,
+        { "unmaximize-right", 0, 0, G_OPTION_ARG_NONE, &set_unmaximize_right,
           N_("Make the window not fill the right half of the work area"), NULL },
 	{ "float", 0, 0, G_OPTION_ARG_NONE, &set_floating,
           N_("Make the window float in tiling layouts"), NULL },
@@ -821,8 +821,8 @@ validate_options (void)
   CHECK_DUAL_OPTIONS (filled, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (floating, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (undecorated, WINDOW_WRITE_MODE)
-  CHECK_DUAL_OPTIONS (maximus_left, WINDOW_WRITE_MODE)
-  CHECK_DUAL_OPTIONS (maximus_right, WINDOW_WRITE_MODE)
+  CHECK_DUAL_OPTIONS (maximize_left, WINDOW_WRITE_MODE)
+  CHECK_DUAL_OPTIONS (maximize_right, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (skip_pager, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (skip_tasklist, WINDOW_WRITE_MODE)
   CHECK_DUAL_OPTIONS (pin, WINDOW_WRITE_MODE)
@@ -1064,8 +1064,12 @@ update_window (WnckWindow *window)
   SET_PROPERTY_BOOLEAN (filled, actions, actions)
   SET_PROPERTY_BOOLEAN (floating, actions, actions)
   SET_PROPERTY_BOOLEAN (undecorated, actions, actions)
-  SET_PROPERTY_BOOLEAN (maximus_left, actions, actions)
-  SET_PROPERTY_BOOLEAN (maximus_right, actions, actions)
+  SET_PROPERTY_DUAL (maximize_left,
+                     WNCK_WINDOW_ACTION_MAXIMIZE_LEFT,
+                     WNCK_WINDOW_ACTION_UNMAXIMIZE_LEFT)
+  SET_PROPERTY_DUAL (maximize_right,
+                     WNCK_WINDOW_ACTION_MAXIMIZE_RIGHT,
+                     WNCK_WINDOW_ACTION_UNMAXIMIZE_RIGHT)
   SET_PROPERTY_BOOLEAN (skip_pager, actions, actions)
   SET_PROPERTY_BOOLEAN (skip_tasklist, actions, actions)
   SET_PROPERTY_DUAL (pin,
@@ -1630,8 +1634,8 @@ print_window (WnckWindow *window)
   PRINT_LIST_ITEM (wnck_window_is_filled, _("filled"));
   PRINT_LIST_ITEM (wnck_window_is_floating, _("floating"));
   PRINT_LIST_ITEM (wnck_window_is_undecorated, _("undecorated"));
-  PRINT_LIST_ITEM (wnck_window_is_maximus_left, _("maximus left"));
-  PRINT_LIST_ITEM (wnck_window_is_maximus_right, _("maximus right"));
+  PRINT_LIST_ITEM (wnck_window_is_maximized_left, _("maximized left"));
+  PRINT_LIST_ITEM (wnck_window_is_maximized_right, _("maximized right"));
   /* Translators: A pager is the technical term for the workspace switcher.
    * It's a representation of all workspaces with windows inside it.
    * Please make sure that the translation is in sync with gnome-panel,
@@ -1681,6 +1685,14 @@ print_window (WnckWindow *window)
                     _("maximize vertically"));
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNMAXIMIZE_VERTICALLY,
                     _("unmaximize vertically"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_MAXIMIZE_LEFT,
+                    _("maximize left"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNMAXIMIZE_LEFT,
+                    _("unmaximize left"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_MAXIMIZE_RIGHT,
+                    _("maximize right"));
+  PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_UNMAXIMIZE_RIGHT,
+                    _("unmaximize right"));
   /* we're calling PRINT_FLAGS_ITEM() three times for l10n reasons */
   PRINT_FLAGS_ITEM (actions, WNCK_WINDOW_ACTION_CHANGE_WORKSPACE,
                     _("change workspace"));

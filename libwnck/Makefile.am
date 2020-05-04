@@ -188,10 +188,10 @@ inlinepixbufs_SOURCES =		\
 	stock_unminimize.png	\
 	stock_unshade.png	\
 	stock_unstick.png	\
-	stock_maximus_l.png	\
-	stock_maximus_r.png	\
-	stock_unmaximus_l.png	\
-	stock_unmaximus_r.png
+	stock_maximize_l.png	\
+	stock_maximize_r.png	\
+	stock_unmaximize_l.png	\
+	stock_unmaximize_r.png
 
 inlinepixbufs_pairs =							\
 	default_icon_data	$(srcdir)/default_icon.png		\
@@ -231,10 +231,10 @@ inlinepixbufs_pairs =							\
 	stock_unminimize_data	$(srcdir)/stock_unminimize.png		\
 	stock_unshade_data	$(srcdir)/stock_unshade.png		\
 	stock_unstick_data	$(srcdir)/stock_unstick.png		\
-	stock_maximus_l_data	$(srcdir)/stock_maximus_l.png		\
-	stock_maximus_r_data	$(srcdir)/stock_maximus_r.png		\
-	stock_unmaximus_l_data	$(srcdir)/stock_unmaximus_l.png		\
-	stock_unmaximus_r_data	$(srcdir)/stock_unmaximus_r.png
+	stock_maximize_l_data	$(srcdir)/stock_maximize_l.png		\
+	stock_maximize_r_data	$(srcdir)/stock_maximize_r.png		\
+	stock_unmaximize_l_data	$(srcdir)/stock_unmaximize_l.png		\
+	stock_unmaximize_r_data	$(srcdir)/stock_unmaximize_r.png
 
 inlinepixbufs.h: $(inlinepixbufs_SOURCES)
 	$(AM_V_GEN)$(GDK_PIXBUF_CSOURCE) --raw --build-list $(inlinepixbufs_pairs) > $@

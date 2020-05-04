@@ -69,8 +69,8 @@ typedef enum
   SHADE,
   FLOAT,
   FILL,
-  MAXIMUS_L,
-  MAXIMUS_R,
+  MAXIMIZE_L,
+  MAXIMIZE_R,
   ABOVE,
   BELOW,
   UNDECORATE,
@@ -96,8 +96,8 @@ struct _WnckActionMenuPrivate
   GtkWidget *shade_item;
   GtkWidget *float_item;
   GtkWidget *fill_item;
-  GtkWidget *maximus_l_item;
-  GtkWidget *maximus_r_item;
+  GtkWidget *maximize_l_item;
+  GtkWidget *maximize_r_item;
   GtkWidget *above_item;
   GtkWidget *below_item;
   GtkWidget *undec_item;
@@ -244,17 +244,17 @@ item_activated_callback (GtkWidget *menu_item,
       else
         wnck_window_fill (window);
       break;
-    case MAXIMUS_L:
-      if (wnck_window_is_maximus_left (window))
-        wnck_window_unmaximus_left (window);
+    case MAXIMIZE_L:
+      if (wnck_window_is_maximized_left (window))
+        wnck_window_unmaximize_left (window);
       else
-        wnck_window_maximus_left (window);
+        wnck_window_maximize_left (window);
       break;
-    case MAXIMUS_R:
-      if (wnck_window_is_maximus_right (window))
-        wnck_window_unmaximus_right (window);
+    case MAXIMIZE_R:
+      if (wnck_window_is_maximized_right (window))
+        wnck_window_unmaximize_right (window);
       else
-        wnck_window_maximus_right (window);
+        wnck_window_maximize_right (window);
       break;
     case ABOVE:
       if (wnck_window_is_above (window))
@@ -591,33 +591,33 @@ update_menu_state (WnckActionMenu *menu)
       gtk_widget_set_sensitive (priv->fill_item,
                                 (actions & WNCK_WINDOW_ACTION_FILL) != 0);
     }
-  if (wnck_window_is_maximus_left (priv->window))
+  if (wnck_window_is_maximized_left (priv->window))
     {
-      set_item_text (priv->maximus_l_item, _("_Unmaximus Left"));
-      set_item_stock (priv->maximus_l_item, WNCK_STOCK_UNMAXIMUS_L);
-      gtk_widget_set_sensitive (priv->maximus_l_item,
-                                (actions & WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT) != 0);
+      set_item_text (priv->maximize_l_item, _("_Unmaximize Left"));
+      set_item_stock (priv->maximize_l_item, WNCK_STOCK_UNMAXIMIZE_L);
+      gtk_widget_set_sensitive (priv->maximize_l_item,
+                                (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE_LEFT) != 0);
     }
   else
     {
-      set_item_text (priv->maximus_l_item, _("Maximus _Left"));
-      set_item_stock (priv->maximus_l_item, WNCK_STOCK_MAXIMUS_L);
-      gtk_widget_set_sensitive (priv->maximus_l_item,
-                                (actions & WNCK_WINDOW_ACTION_MAXIMUS_LEFT) != 0);
+      set_item_text (priv->maximize_l_item, _("Maximize _Left"));
+      set_item_stock (priv->maximize_l_item, WNCK_STOCK_MAXIMIZE_L);
+      gtk_widget_set_sensitive (priv->maximize_l_item,
+                                (actions & WNCK_WINDOW_ACTION_MAXIMIZE_LEFT) != 0);
     }
-  if (wnck_window_is_maximus_right (priv->window))
+  if (wnck_window_is_maximized_right (priv->window))
     {
-      set_item_text (priv->maximus_r_item, _("_Unmaximus Right"));
-      set_item_stock (priv->maximus_r_item, WNCK_STOCK_UNMAXIMUS_R);
-      gtk_widget_set_sensitive (priv->maximus_r_item,
-                                (actions & WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT) != 0);
+      set_item_text (priv->maximize_r_item, _("_Unmaximize Right"));
+      set_item_stock (priv->maximize_r_item, WNCK_STOCK_UNMAXIMIZE_R);
+      gtk_widget_set_sensitive (priv->maximize_r_item,
+                                (actions & WNCK_WINDOW_ACTION_UNMAXIMIZE_RIGHT) != 0);
     }
   else
     {
-      set_item_text (priv->maximus_r_item, _("Maximus _Right"));
-      set_item_stock (priv->maximus_r_item, WNCK_STOCK_MAXIMUS_R);
-      gtk_widget_set_sensitive (priv->maximus_r_item,
-                                (actions & WNCK_WINDOW_ACTION_MAXIMUS_RIGHT) != 0);
+      set_item_text (priv->maximize_r_item, _("Maximize _Right"));
+      set_item_stock (priv->maximize_r_item, WNCK_STOCK_MAXIMIZE_R);
+      gtk_widget_set_sensitive (priv->maximize_r_item,
+                                (actions & WNCK_WINDOW_ACTION_MAXIMIZE_RIGHT) != 0);
     }
   if (wnck_window_is_above (priv->window))
     {
@@ -1266,15 +1266,15 @@ wnck_action_menu_constructor (GType                  type,
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
                          priv->fill_item);
 
-  priv->maximus_l_item = make_menu_item (MAXIMUS_L);
+  priv->maximize_l_item = make_menu_item (MAXIMIZE_L);
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
-                         priv->maximus_l_item);
+                         priv->maximize_l_item);
 
-  priv->maximus_r_item = make_menu_item (MAXIMUS_R);
+  priv->maximize_r_item = make_menu_item (MAXIMIZE_R);
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
-                         priv->maximus_r_item);
+                         priv->maximize_r_item);
 
   priv->move_item = make_menu_item (MOVE);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),

@@ -805,10 +805,10 @@ _wnck_stock_icons_init (void)
     { WNCK_STOCK_UNMINIMIZE,   stock_unminimize_data    },
     { WNCK_STOCK_UNSHADE,      stock_unshade_data       },
     { WNCK_STOCK_UNSTICK,      stock_unstick_data       },
-    { WNCK_STOCK_MAXIMUS_L,    stock_maximus_l_data     },
-    { WNCK_STOCK_MAXIMUS_R,    stock_maximus_r_data     },
-    { WNCK_STOCK_UNMAXIMUS_L,  stock_unmaximus_l_data   },
-    { WNCK_STOCK_UNMAXIMUS_R,  stock_unmaximus_r_data   }
+    { WNCK_STOCK_MAXIMIZE_L,   stock_maximize_l_data    },
+    { WNCK_STOCK_MAXIMIZE_R,   stock_maximize_r_data    },
+    { WNCK_STOCK_UNMAXIMIZE_L, stock_unmaximize_l_data  },
+    { WNCK_STOCK_UNMAXIMIZE_R, stock_unmaximize_r_data  }
   };
 
   if (done)
