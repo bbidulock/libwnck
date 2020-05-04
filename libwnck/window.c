@@ -3376,6 +3376,10 @@ update_actions (WnckWindow *window)
                 WNCK_WINDOW_ACTION_UNFILL                  |
                 WNCK_WINDOW_ACTION_FLOAT                   |
                 WNCK_WINDOW_ACTION_UNFLOAT                 |
+                WNCK_WINDOW_ACTION_MAXIMUS_LEFT            |
+                WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT          |
+                WNCK_WINDOW_ACTION_MAXIMUS_RIGHT           |
+                WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT         |
 #endif
                 0;
       return;
@@ -3428,6 +3432,14 @@ update_actions (WnckWindow *window)
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FILL"))
         window->priv->actions |= WNCK_WINDOW_ACTION_FILL |
                                  WNCK_WINDOW_ACTION_UNFILL;
+
+      else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MAXIMUS_LEFT"))
+        window->priv->actions |= WNCK_WINDOW_ACTION_MAXIMUS_LEFT |
+                                 WNCK_WINDOW_ACTION_UNMAXIMUS_LEFT;
+
+      else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_MAXIMUS_RIGHT"))
+        window->priv->actions |= WNCK_WINDOW_ACTION_MAXIMUS_RIGHT |
+                                 WNCK_WINDOW_ACTION_UNMAXIMUS_RIGHT;
 
       else if (atoms[i] == _wnck_atom_get ("_NET_WM_ACTION_FLOAT"))
         window->priv->actions |= WNCK_WINDOW_ACTION_FLOAT |

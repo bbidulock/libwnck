@@ -1274,7 +1274,7 @@ wnck_action_menu_constructor (GType                  type,
   priv->maximus_r_item = make_menu_item (MAXIMUS_R);
 
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
-                         priv->maximus_l_item);
+                         priv->maximus_r_item);
 
   priv->move_item = make_menu_item (MOVE);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu),
