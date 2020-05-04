@@ -710,22 +710,36 @@ WnckWindow
 @fill: 
 
 
-<!-- ##### FUNCTION wnck_window_set_maximus_left ##### -->
+<!-- ##### FUNCTION wnck_window_maximus_left ##### -->
 <para>
 
 </para>
 
 @window: 
-@maximus: 
 
 
-<!-- ##### FUNCTION wnck_window_set_maximus_right ##### -->
+<!-- ##### FUNCTION wnck_window_unmaximus_left ##### -->
 <para>
 
 </para>
 
 @window: 
-@maximus: 
+
+
+<!-- ##### FUNCTION wnck_window_maximus_right ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### FUNCTION wnck_window_unmaximus_right ##### -->
+<para>
+
+</para>
+
+@window: 
 
 
 <!-- ##### FUNCTION wnck_window_set_floating ##### -->
